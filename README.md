@@ -32,11 +32,11 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    [1.4 开始阅读ECMASCript规范](#navigating-the-spec)
 
-2. [执行语义](#Runtime sematics)
+2. [执行语义](#Runtime-sematics)
 
-   [2.1算法步骤（Algorithm steps）](#算法步骤（Algorithm steps）)
+   [2.1算法步骤（Algorithm steps）](#算法步骤（Algorithm-steps）)
 
-   [2.2抽象操作（Abstract Operation）](#Abstract Operation)
+   [2.2抽象操作（Abstract Operation）](#Abstract-Operation)
 
    <a src="#what-is-this">2.3 形如[[Notation]]的结构的含义</a> 
 
@@ -183,7 +183,7 @@ ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆
 
 
 
-<h3 id="Runtime sematics" >2、执行语义（Runtime sematics） </h3>
+<h3 id="Runtime-sematics" >2、执行语义（Runtime sematics） </h3>
 
 JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅。通常，它描述了人们最关心的问题。
 
@@ -193,7 +193,7 @@ JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅。�
 
 
 
-<h3 id="Algorithm steps" >2.1. 算法步骤（Algorithm steps） </h3>
+<h3 id="Algorithm-steps" >2.1. 算法步骤（Algorithm steps） </h3>
 
 ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如同伪代码一样，只不过Algorithm steps会更加的严格。
 
@@ -214,7 +214,7 @@ ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如�
 
 
 
-<h3 id="Abstract Operation" >2.2. 抽象操作（Abstract Operation） </h3>
+<h3 id="Abstract-Operation" >2.2. 抽象操作（Abstract Operation） </h3>
 
 有时你会在本规范中看到类函数的抽象操作。例如， `Boolean()` 函数运行的第一步规定为：
 
@@ -229,7 +229,7 @@ ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如�
 
 
 
-<h3 id="what-is-this" >2.3.  形如[[Notation]]的结构的含义 </h3>
+<h3 id="what-is-this" >2.3.形如[[Notation]]的结构的含义 </h3>
 
 有时，你会看到形如[[Notation]]的结构被写到了 这样的表达式中 `Let proto be obj.[[Prototype]]`。根据上下文的不同，这种符号在技术上可以有不同的含义。 如果你认为这个[[Notation]]表示了某种“根据现有JS代码不可察觉到的内置属性“，那么我看好你哦，你的前途无可限量。
 
