@@ -40,13 +40,13 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    <a href="#what-is-this">2.3 形如[[Notation]]的结构的含义</a> 
 
-   ​	[2.3.1它是一个记录的一个字段（ A field of a Record）](#它是一个记录的一个字段（ A field of a Record）)	
+   ​	[2.3.1它是一个记录的一个字段（ A field of a Record）](#2-3-1）)	
 
-   ​	[2.3.2它表示了JS对象的“内部插槽”](#它表示了JS对象的"内部插槽")
+   ​	[2.3.2它表示了JS对象的“内部插槽”](#2-3-2)
 
-   ​	[2.3.3它表示了JS对象的一个内置方法](#它表示了JS对象的一个内置方法)
+   ​	[2.3.3它表示了JS对象的一个内置方法](#2-3-3)
 
-   [2.4Completion Records; `?` and `!`](#completion-records-and-shorthands)
+   [2.4. “完成记录” 与 符号 `?` 、 `!`](#completion-records-and-shorthands)
 
    [2.5JavaScript Objects](#javascript-objects)
 
@@ -237,7 +237,7 @@ ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如�
 
 
 
-#### 2.3.1. 它表示了一对键值对（ A field of a Record）
+<h4 id="2-3-1" >2.3.1. 它表示了一对键值对（ A field of a Record） </h4>
 
 ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`映射，这是一种类C的结构。`Record`中的每一对`键-值`对都被称为字段*（field）*。 由于术语`Record`只会出现于规范而不是日常的JS代码中，使用形如*[[Notation]]*的样子来引用`Record`的字段是有意义的。
 
@@ -263,7 +263,7 @@ ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`�
 
 
 
-#### 2.3.2. 它表示了JS对象的“内部插槽”
+<h4 id="2-3-2" >2.3.2. 它表示了JS对象的“内部插槽”</h4>
 
 根据ECMAScript规范，JavaScript对象中可能会有所谓的用于**保存数据**的“内部插槽”（internal slot）。 正如记录`Record`的字段*(field)*，这些所谓的内部插槽在使用JS的过程中是不可见的，它不会体现于代码中。
 
@@ -285,7 +285,7 @@ ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`�
 
 
 
-#### 2.3.3. 它表示了JS对象的一个内置方法
+<h4 id="2-3-3" >2.3.3. 它表示了JS对象的一个内置方法</h4>
 
 JavaScript对象中也可能会有所谓的”内置方法”（internal method） 。正如“内部插槽”，这些内置方法也不能通过JS代码直接观察到。 因此，使用形如*[[Notation]]*的结构来表示内置方法也是有意义的。
 
@@ -301,7 +301,7 @@ JavaScript对象中也可能会有所谓的”内置方法”（internal method�
 
 
 
-### 2.4. “完成记录” 与 符号 `?` 、 `!`
+<h3 id="completion-records-and-shorthands" >2.4. “完成记录” 与 符号 <code>?</code>、<code>!</code></h3>
 
 每段ECMAScript规范中的执行语义都显式或隐式地返回了一个描述代码输出结果的**完成记录**（Completion Records）。这个完成记录有三个可能的字段：
 
