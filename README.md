@@ -56,7 +56,7 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    [2.8Example: `typeof` operator](#example-typeof-operator)
 
-## 1. 前言
+ <div id="前言">1. 前言</div>
 
 现在，你决定每天阅读一点ECMAScript规范。也许是为了陶冶情操，或者这是新年立的FLAG，亦或你老妈觉得你需要读。哎，不管是什么原因，欢迎入坑!
 
@@ -705,7 +705,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
 ## Index
 
-### Terms defined by this 规范
+### Terms defined by this specification
 
 - [!](#exclamation-mark), in §2.4
 - [?](#question-mark), in §2.4
