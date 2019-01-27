@@ -40,13 +40,13 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    <a href="#what-is-this">2.3 形如[[Notation]]的结构的含义</a> 
 
-   ​	[2.3.1它是一个记录的一个字段（ A field of a Record）](#2-3-1）)	
+   ​	[2.3.1它是一个记录的一个字段（ A field of a Record）](#2-3-1)	
 
    ​	[2.3.2它表示了JS对象的“内部插槽”](#2-3-2)
 
    ​	[2.3.3它表示了JS对象的一个内置方法](#2-3-3)
 
-   [2.4. “完成记录” 与 符号 `?` 、 `!`](#completion-records-and-shorthands)
+   [2.4. “完成记录” 与 速记符号 `?`&`!`](#completion-records-and-shorthands)
 
    [2.5JavaScript Objects](#javascript-objects)
 
@@ -185,11 +185,31 @@ ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆
 
 <h3 id="Runtime-sematics" >2、执行语义（Runtime sematics） </h3>
 
-JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅。通常，它描述了人们最关心的问题。
+JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅，这通常也是人们问题最多的地方。
 
-（译者注：所谓执行语义，就是这段代码执行后会干啥。相同一段代码，放到不同代码块中执行的流程、结果会有很大的差异。直接从一段代码可阅读出的意思称为所谓的**静态语义**，而表示了一段代码的执行流程、执行结果的称为**执行语义**，也成为**动态语义**。）
+（译者注：所谓执行语义，就是这段代码执行后会干啥。相同一段代码，放到不同代码块中执行的流程、结果会有很大的差异。直接从一段代码可阅读出的意思称为所谓的**静态语义**，而**执行语义**表示了一段代码的执行流程、执行结果。也成为**动态语义**。）
 
-大体说，执行语义相关章节的表述非常直接，不绕弯子。然鹅蛋碎的是， ECMAScript规范使用了大量的速记词法，对于刚起步的人来说这简直讨厌至极（至少对我来说是如此）。为了了解一些语句的工作方式，我会尝试解释其中的一些约定，并将它们应用到我的日常工作流程中。
+大体说，执行语义相关章节的表述非常直接，不绕弯子。然鹅蛋碎的是， ECMAScript规范使用了大量的简写*，对于刚起步的人来说这简直讨厌至极（至少对我来说是如此）。为了了解一些语句的工作方式，我会尝试解释其中的一些约定，并将它们应用到我的日常工作流程中。
+
+> *译者注：简写（shorthand）：从ECMAScript 2015开始，在对象初始器中引入了一种更简短定义方法的语法，这是一种把方法名直接赋给函数的简写方式。
+>
+> 在ES5中。我们定义一个对象的方法如下：
+>
+> ```js
+> var obj = {
+>   foo: function() {
+>     /* code */
+>   };
+> ```
+>
+> 而在ES6及其之后：
+>
+> ```js
+> var obj = {
+>   foo() {
+>     /* code */
+>   };
+> ```
 
 
 
@@ -208,9 +228,7 @@ ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如�
 > 4. Else
 >    1. Boo!
 
-
-
-> 延伸阅读: [§5.2 Algorithm Conventions](https://tc39.github.io/ecma262/#sec-algorithm-conventions)
+延伸阅读: [§5.2 Algorithm Conventions](https://tc39.github.io/ecma262/#sec-algorithm-conventions)
 
 
 
@@ -267,9 +285,9 @@ ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`�
 
 根据ECMAScript规范，JavaScript对象中可能会有所谓的用于**保存数据**的“内部插槽”（internal slot）。 正如记录`Record`的字段*(field)*，这些所谓的内部插槽在使用JS的过程中是不可见的，它不会体现于代码中。
 
-（译者注：但是它会体现于代码结果上：例如内置对象**Data**使用了*[[DateValue]]*这个“内部插槽”，用于存储以世界协调时为基准的当前时间的时间戳。码代码时不可见，但你可以把它打印出来。）
+（译者注：但是它会体现于代码结果上：例如内置对象**Data**使用了[[DateValue]]这个“内部插槽”，用于存储以世界协调时为基准的当前时间的时间戳。码代码时不可见，但你可以把它打印出来。）
 
-但是，他们会暴露于那些实现了特定细节的工具中，例如谷歌Chrome自带的开发者调试工具。因此，使用形如*[[Notation]]*的结构来描述“内部插槽”是有意义的。关于“内置插槽”的规定在2.2章节中 [§2.5 JavaScript Objects](#javascript-objects)。
+但是，他们会暴露于那些实现了特定细节的工具中，例如谷歌Chrome自带的开发者调试工具。因此，使用形如[[Notation]]的结构来描述“内部插槽”是有意义的。关于“内置插槽”的规定在2.2章节中 [§2.5 JavaScript Objects](#javascript-objects)。
 
 现在，你专心看以下的例子就好，不要老想着内部插槽到底是干嘛的：
 
@@ -301,7 +319,7 @@ JavaScript对象中也可能会有所谓的”内置方法”（internal method�
 
 
 
-<h3 id="completion-records-and-shorthands" >2.4. “完成记录” 与 符号 <code>?</code>、<code>!</code></h3>
+<h3 id="completion-records-and-shorthands" >2.4. “完成记录” 与 速记符号 <code>?</code>&<code>!</code></h3>
 
 每段ECMAScript规范中的执行语义都显式或隐式地返回了一个描述代码输出结果的**完成记录**（Completion Records）。这个完成记录有三个可能的字段：
 
@@ -313,99 +331,115 @@ JavaScript对象中也可能会有所谓的”内置方法”（internal method�
 
 注： 形如`[[ ]]`的双括号常用来表示一个记录的字段（即键值对）。
 
-一个[[Type]]是`normal` 的完成记录称作“正常完成”*（normal completion）*。除了“正常完成”之外，其他的完成记录称为“突然完成”*（abrupt completion）*。
+一个[[Type]]类型为`normal` 的完成记录称作“正常完成”*（normal completion）*。除了“正常完成”之外，其他的完成记录称为“突然完成”*（abrupt completion）*。
 
-大多情况下，你会处理到的*abrupt completion*的记录其 [[[Type\]]](#completion-record-type) 为 `throw`。其他三种*abrupt completion*的完成记录只会在你观察“特定语法元素的计算过程”时有点作用。实际上，你并不会在内置函数的定义中看到其他类型，因为关键词`break`/`continue`/`return` 不会跨函数域工作。
+大多情况下，对于你处理到的*abrupt completion*记录，其 [[[Type\]]](#completion-record-type) 为 `throw`，而其他三种属于*abrupt completion*的完成记录只会在你观察“特定语法元素的计算过程”时有点作用。实际上，你并不会在内置函数的定义中看到除`break` / `continue` / `return` 以外的其他 [[[Type\]]](#completion-record-type)，因为这三者不会跨函数域工作。
 
 延伸阅读： [§6.2.3 The Completion Record Specification Type](https://tc39.github.io/ecma262/#sec-completion-record-规范-type)
 
 ------
 
-Because of the definition of [Completion Records](#completion-record), niceties in JavaScript like bubbling errors until a `try`-`catch` block don’t exist in the spec. In fact, errors (or more precisely abrupt completions) are handled explicitly.
+由于所谓“完成记录”的定义，一些诸如 “bubbling errors until a `try`-`catch`”的JavaScript细节于ECMAScript规范中并不存在。事实上，错误（或者更精确地说是“突然完成”）已被显式地处理了。
 
-Without any shorthands, the spec text for an ordinary call to an abstract operation that may either return a computation result or throw an error would look like:
+不写简写时，规范中的一个常见的抽象函数的调用操作可以返回计算结果或者抛出一个错误。正如：
 
-
-
-A few steps that call an abstract operation that may throw **without any shorthands**:
-
-1. Let resultCompletionRecord be AbstractOp().
-
-   Note: resultCompletionRecord is a [Completion Record](#completion-record).
-
-2. If resultCompletionRecord is an abrupt completion, return resultCompletionRecord.
-
-   Note: Here, resultCompletionRecord is directly returned if it is an [abrupt completion](#abrupt-completion). In other words, errors thrown in AbstractOp are forwarded, and the remaining steps aborted.
-
-3. Let result be resultCompletionRecord.[[Value]].
-
-   Note: After ensuring we got a [normal completion](#normal-completion), we can now unwrap the [Completion Record](#completion-record) to get the actual result of the computation we need.
-
-4. result is the result we need. We can now do more things with it.
-
-This may possibly vaguely remind you of manual error handling in C:
-
-```c
-int result = abstractOp();              // Step 1
-if (result < 0)                         // Step 2
-  return result;                        // Step 2 (continued)
-                                        // Step 3 is unneeded
-// func() succeeded; carrying on...     // Step 4
-```
-
-But to reduce these heavily boilerplated steps, editors of the ECMAScript spec added a few shorthands. Since ES2016, the same spec text can instead be written in the following two equivalent ways:
-
-
-
-A few steps that call an abstract operation that may throw **with ReturnIfAbrupt**:
-
-1. Let result be AbstractOp().
-
-   Note: Here, just like the step 1 in the previous example, result is a [Completion Record](#completion-record).
-
-2. [ReturnIfAbrupt](https://tc39.github.io/ecma262/#sec-returnifabrupt)(result).
-
-   Note: [ReturnIfAbrupt](#abstract-opdef-returnifabrupt) deals with any possible [abrupt completions](#abrupt-completion)by forwarding it, and unwraps the result to its [[[Value\]]](#completion-record-value)automatically.
-
-3. result is the result we need. We can now do more things with it.
-
-or, even more concisely, with a special question mark (?) notation:
+> 例五：
+>
+> ------
+>
+> A few steps that call an abstract operation that may throw **without any shorthands**:
+>
+> 1. Let resultCompletionRecord be AbstractOp().
+>
+>    > 注: resultCompletionRecord 属于所谓的“完成记录”。
+>
+> 2. If resultCompletionRecord is an abrupt completion, return resultCompletionRecord.
+>
+>    > 注：此处，若resultCompletionRecord的[[Type]] 是 *abrupt completion* 的，那么他会直接返回它本身。也就是说，在抽象操作中抛出的错误将被转发，而接下来的步骤将被终止。
+>
+> 3. Let result be resultCompletionRecord.[[Value]].
+>
+>    > 注： 确定了它是一个 *normal completion*之后， 我们可以打开这个“完成记录”来获得我们需要的计算的实际结果。
+>
+> 4. result is the result we need. We can now do more things with it.
+>
+> 在C语言中，下列代码也许会含糊地提示你手动地进行错误处理：
+>
+> ```c
+> int result = abstractOp();              // Step 1
+> if (result < 0)                         // Step 2
+>   return result;                        // Step 2 (continued)
+>                                         // Step 3 is unneeded
+> // func() succeeded; carrying on...     // Step 4
+> ```
 
 
 
-A few steps that call an abstract operation that may throw **with a question mark (?)**:
+但是，为了减少这些繁重的引用步骤，ECMAScript的编辑们加入了一些简写。从ES2016起，ECMAScript规范被写为下列两种等价的形式：
 
-1. Let result be ? AbstractOp().
+> 例六：
+>
+> ------
+>
+> A few steps that call an abstract operation that may throw **with ReturnIfAbrupt**：
+>
+> 1. Let result be AbstractOp().
+>
+>    > 注：此处， result 属于所谓的“完成记录”。
+>
+> 2. ReturnIfAbrupt (result).
+>
+>    > 注： ReturnIfAbrupt 通过接收 *abrupt completion*的转发来进行计算，并自动将结果返回到result的[[Value]]中。
+>
+> 3. result is the result we need. We can now do more things with it.
 
-   Note: In this notation we don’t deal with [Completion Records](#completion-record) at all. The [?](#question-mark) shorthand handles *everything* for us, and result is ready to use immediately after.
+或者，要更简洁的话，使用一个问号`?`来标记：
 
-2. result is the result we need. We can now do more things with it.
+> 例七、
+>
+> ------
+>
+> A few steps that call an abstract operation that may throw **with a question mark (?)**:
+>
+> 1. Let result be ? AbstractOp().
+>
+>    > 注：在这种表示法中，我们根本不用处理“完成记录“。 符号`?`为我们处理了一切，并且结果可以立即使用。
+>
+> 2. result is the result we need. We can now do more things with it.
+
+
 
 ------
 
-Sometimes, it can convey more information to the reader about the spec’s intent if we know that a particular call to AbstractOp will never return an abrupt completion. In those cases, an exclamation mark (!) is used:
+
+
+为使读者更深刻地了解规范要传达的意图，当AbstractOp()不返回形如*abrupt completion*的完成记录时，会使用一个感叹号`!`表示：
 
 
 
-A few steps that call an abstract operation that cannot ever throw **with an exclamation mark (!)**:
+> 例八、
+>
+> ------
+>
+> A few steps that call an abstract operation that cannot ever throw **with an exclamation mark (!)**:
+>
+> 1. Let result be ! AbstractOp().
+>
+>    > 注：虽然`?`转发了一些我们可能得到的错误，但是`!`决定了我们不会从这个调用中得到形如*abrupt completion*的完成记录。正如使用问号的情形，我们不处理完成记录，结果可立即被使用。
+>
+> 2. result is the result we need. We can now do more things with it.
 
-1. Let result be ! AbstractOp().
 
-   Note: While [?](#question-mark) forwards any errors we may have gotten, [!](#exclamation-mark) asserts that we *never* get any abrupt completions from this call, and it would be a bug in the 规范 if we did. Like the case with [?](#question-mark), we don’t deal with [Completion Records](#completion-record) at all. result is ready to use immediately after.
 
-2. result is the result we need. We can now do more things with it.
-
-CAUTION
-
-The [!](#exclamation-mark) can admittedly become pretty confusing if it is part of a comparison:
+警告：不可否认，如果`!`是比较的一部分，那么它会变得相当混乱：
 
 > 1. ..., return the result of the comparison ! [ToNumber](https://tc39.github.io/ecma262/#sec-tonumber)(x) == y.
 >
 > — Excerpted from [§7.2.14 Abstract Equality Comparison](https://tc39.github.io/ecma262/#sec-abstract-equality-comparison).
 
-Here, the [!](#exclamation-mark) just means that we are certain that this call to [ToNumber](#abstract-opdef-tonumber) will never return an exception, *not* that the comparison is inverted!
+在此， `!`仅仅意为ToNumber()不会返回一个异常。而不是说这个函数值取反。
 
-Further reading: [§5.2.3.4 ReturnIfAbrupt Shorthands](https://tc39.github.io/ecma262/#sec-returnifabrupt-shorthands).
+延伸阅读：[§5.2.3.4 ReturnIfAbrupt Shorthands](https://tc39.github.io/ecma262/#sec-returnifabrupt-shorthands).
 
 ### 2.5. JavaScript Objects
 
