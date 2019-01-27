@@ -1,4 +1,4 @@
-# 如何阅读 ECMAScript 标准
+# 如何阅读 ECMAScript 规范
 
 - 原文链接:
 
@@ -8,9 +8,9 @@
 
   [Timothy Gu](https://timothygu.me/) [timothygu99@gmail.com](mailto:timothygu99@gmail.com)
 
-* 说明：这篇文档由我本人（槐念，微信公众号Huainian_1994）逐字翻译而得，有些许删改。本文不得用于商业用途，而对于其他用途，在注明出处和作者的前提下可随意转载、删改本翻译文档，同时需要遵守原文的版权规范。
-* 注意：如果你有外语障碍，那么本文你读了也收获不大。因为第一视角是默认无语言障碍的，且ECMAScript标准文档为英文，丢翻译引擎会导致大量专业术语语义扭曲，行文偏离原意，失去阅读的意义。而本文没有阐述“如何克服语言障碍获取知识”的相关内容。(有人会问，那你翻译了作甚？无语言障碍的人直接读原文，谁看你译文？对此我的回答是：我高兴，关你鸟事 :)
-* 下列是原文版权信息：
+- 说明：这篇文档由我本人（槐念，微信公众号Huainian_1994）逐字翻译而得，有些许删改，力求保留原意，包括感情色彩。本文不得用于商业用途，而对于其他用途，在注明出处和作者的前提下可随意转载、删改本翻译文档，同时需要遵守原文的版权规范。
+- 注意：如果你有外语障碍，那么本文你读了也收获不大。因为第一视角是默认无语言障碍的，且ECMAScript标准文档为英文，丢翻译引擎会导致大量专业术语语义扭曲，行文偏离原意，失去阅读的意义。而本文没有阐述“如何克服语言障碍获取知识”的相关内容。(有人会问，那你翻译了作甚？无语言障碍的人直接读原文，谁看你译文？对此我的回答是：我高兴，关你鸟事 :)
+- 下列是原文版权信息：
 
 [![CC BY-SA 4.0](https://i.creativecommons.org/l/by-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-sa/4.0/) This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/), which is available at https://creativecommons.org/licenses/by-sa/4.0/. Parts of this work may be from another specification document. If so, those parts are instead covered by the license of that specification document.
 
@@ -22,18 +22,18 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
 ## 内容结构
 
-1. 1前言
-   1. [1.1我为什么需要阅读ECMAScript规范](#why-should-i-read-the-ecmascript-规范)
-   2. [1.2哪些属于ECMAScript规范，哪些不属于呢](#what-belongs-to-the-ecmascript-规范)
-   3. [1.3ECMAScript规范怎么找?](#where-is-the-ecmascript-规范)
-   4. [1.4 开始阅读ECMASCript规范](#navigating-the-spec)
-2. 2执行语义
-   1. [2.1Algorithm steps](#algorithm-steps)
-   2. [2.2Abstract operations](#abstract-operations)
-   3. 2.3 形如[[This]]的结构的含义
-      1. [2.3.1A field of a Record](#double-brackets-field-of-record)
-      2. [2.3.2An internal slot of a JavaScript Object](#double-brackets-internal-slot-of-javascript-object)
-      3. [2.3.3An internal method of a JavaScript Object](#double-brackets-internal-method-of-javascript-object)
+1. 1[前言](#前言)
+   1. [1.1我为什么需要阅读ECMAScript规范](#我为什么需要阅读ECMAScript规范)
+   2. [1.2哪些属于ECMAScript规范，哪些不属于呢](#哪些属于ECMAScript规范，哪些不属于呢)
+   3. [1.3ECMAScript规范怎么找?](#ECMAScript规范怎么找?)
+   4. [1.4 开始阅读ECMASCript规范](#开始阅读ECMASCript规范)
+2. 2[执行语义](执行语义（Runtime sematics）)
+   1. [2.1算法步骤（Algorithm steps）](#算法步骤（Algorithm steps）)
+   2. [2.2抽象操作（Abstract Operation）](#抽象操作（Abstract Operation）)
+   3. 2.3 形如*[[Notation]]*的结构的含义
+      1. [2.3.1它是一个记录的一个字段（ A field of a Record）](#它是一个记录的一个字段（ A field of a Record）)
+      2. [2.3.2它表示了JS对象的“内部插槽”](#它表示了JS对象的"内部插槽")
+      3. [2.3.3它表示了JS对象的一个内置方法](#它表示了JS对象的一个内置方法)
    4. [2.4Completion Records; `?` and `!`](#completion-records-and-shorthands)
    5. [2.5JavaScript Objects](#javascript-objects)
    6. [2.6Example: `String.prototype.substring()`](#example-string-prototype-substring)
@@ -104,23 +104,25 @@ Okay，现在你知道阅读规范会帮助你了解、看清一门编程语言�
 
 
 
->[1] ECMAScript标准规定了声明的语法、规定了这些声明的含义，但没有规定如何加载模块。
+> [1] ECMAScript标准规定了声明的语法、规定了这些声明的含义，但没有规定如何加载模块。
 >
->[2] 这些方法在浏览器和Node.js平台上都是可用的，但他们都是非标准的。对于 Node.js，这些方法都在[Node.js的文档](https://nodejs.org/api/globals.html#globals_global_objects)中有明确的规定规范。而对于浏览器，这些方法由W3C组织规定。其中`console`方法有自己的标准([Console Standard](https://console.spec.whatwg.org/))，而其余方法被列在HTML标准中([HTML Standard](<https://html.spec.whatwg.org/multipage/>))，具体可参见[8.5timers](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers)。
+> [2] 这些方法在浏览器和Node.js平台上都是可用的，但他们都是非标准的。对于 Node.js，这些方法都在[Node.js的文档](https://nodejs.org/api/globals.html#globals_global_objects)中有明确的规定规范。而对于浏览器，这些方法由W3C组织规定。其中`console`方法有自己的标准([Console Standard](https://console.spec.whatwg.org/))，而其余方法被列在HTML标准中([HTML Standard](<https://html.spec.whatwg.org/multipage/>))，具体可参见[8.5timers](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers)。
 >
->[3] 这些都是Node.js独有的全局对象。规定于它[自己的官方文档](https://nodejs.org/api/globals.html#globals_global_objects).中。  注： `global` 实际上有机会成为ECMAScript的一部分，并在浏览器中实现。[[ECMA-262-GLOBAL\]](#biblio-ecma-262-global)
+> [3] 这些都是Node.js独有的全局对象。规定于它[自己的官方文档](https://nodejs.org/api/globals.html#globals_global_objects).中。  注： `global` 实际上有机会成为ECMAScript的一部分，并在浏览器中实现。[[ECMA-262-GLOBAL\]](#biblio-ecma-262-global)
 >
->[4] 这些都是Node.js独有的模块级“全局”对象，规定于它[自己的官方文档](https://nodejs.org/api/modules.html#modules_modules)。
+> [4] 这些都是Node.js独有的模块级“全局”对象，规定于它[自己的官方文档](https://nodejs.org/api/modules.html#modules_modules)。
 >
->[5] 他们都是浏览器独有的。
->
->
+> [5] 他们都是浏览器独有的。
+
+
+
+
 
 ### 1.3. ECMAScript规范*在哪*？
 
-当你搜索 "ECMAScript 规范"时，你会看到很搜索结果都会王婆卖瓜，称自己是“最正统的ECMAScript规范”。 你该看谁呢？
+当你搜索 "ECMAScript 规范"时，你会看到很搜索结果都会王婆卖瓜，称自己是“最正统的ECMAScript规范”。 你该如何选择？
 
-太长不看：ECMA-262 可在这里找到：#biblio-ecma-262
+太长不看：ECMA-262 可在这里找到：https://tc39.github.io/ecma262/
 
 
 
@@ -128,19 +130,19 @@ ECMAScript 语言规范由Ecma International Technical Committee 39 维护。(�
 
 
 
->注：ISO/IEC还将ECMAScript语言标准重新发布为ISO/IEC  [[ISO-16262-2011\]](#biblio-iso-16262-2011).。不过不要担心，因为标准的文本与Ecma International发布的标准完全相同，唯一的区别是您必须支付[198瑞士法郎](https://www.google.com/search?q=198+swiss+francs+in+my+currency)。
+> 注：ISO/IEC还将ECMAScript语言标准重新发布为ISO/IEC  [[ISO-16262-2011\]](#biblio-iso-16262-2011).。不过不要担心，因为标准的文本与Ecma International发布的标准完全相同，唯一的区别是您必须支付[198瑞士法郎](https://www.google.com/search?q=198+swiss+francs+in+my+currency)。
 >
 >
 
 ### 1.4. 开始阅读ECMASCript规范
 
-ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆分为逻辑块，它的内容依然繁杂。
+ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆分为逻辑块，但它的内容依然繁杂。
 
 就我而言，我会把它分为五个部分：
 
 - 约定 & 基础知识 ("什么是*Number*类型？	标准中说的“throw a **TypeError** exception”是什么意思？")
 - 语法结构 (" `for`-`in`循环怎么写？")
-- 语言的静态语义 ("变量名是如何用`var`语句定义好的？")
+- 语言的静态语义 ("变量名是如何在`var`语句定义好的？")
 - 语言的执行语义 (" `for`-`in` 是怎么执行的？")
 - APIs (" `String.prototype.substring()`是干嘛的？")
 
@@ -159,7 +161,7 @@ ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆
 
 然鹅，APIs分布于十八章 [§18 The Global Object](https://tc39.github.io/ecma262/#sec-global-object)到二十六章 [§26 Reflection](https://tc39.github.io/ecma262/#sec-reflection)的条款中。
 
-从这点说，**没有人**会从头到尾地阅读ECMAScript规范（没有人：“谁叫我？”），而是查看与要查找的内容相对应的部分，并且在该部分中只看需要的内容。 试着确定你的具体问题涉及了上述五个点中的哪个点。如果你不知道是哪一个方面有困难，问问你自己“这个问题在哪个阶段(无论你想要确认什么)开始出现的？”不要担心，多看几遍文档就好，实践出真知。
+从这点说，**没有人**会从头到尾地阅读ECMAScript规范（没有人：“谁叫我？”），而是查看与要查找的内容相对应的部分，并且在该部分中只看需要的内容。 试着确定你的具体问题涉及了上述五个点中的哪个点。如果你不知道是哪一个方面有困难，问问你自己“这个问题在哪个阶段(无论你想要确认什么)**计算**的？”不要担心，多看几遍文档就好，实践出真知。
 
 
 
@@ -169,7 +171,7 @@ ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆
 
 JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅。通常，它描述了人们最关心的问题。
 
-（译者注：所谓执行语义，就是这段代码执行后会干啥）
+（译者注：所谓执行语义，就是这段代码执行后会干啥。相同一段代码，放到不同代码块中执行的流程、结果会有很大的差异。直接从一段代码可阅读出的意思称为所谓的**静态语义**，而表示了一段代码的执行流程、执行结果的称为**执行语义**，也成为**动态语义**。）
 
 大体说，执行语义相关章节的表述非常直接，不绕弯子。然鹅蛋碎的是， ECMAScript规范使用了大量的速记词法，对于刚起步的人来说这简直讨厌至极（至少对我来说是如此）。为了了解一些语句的工作方式，我会尝试解释其中的一些约定，并将它们应用到我的日常工作流程中。
 
@@ -179,20 +181,22 @@ JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅。�
 
 ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如同伪代码一样，只不过Algorithm steps会更加的严格。
 
-例一、一个Algorithm steps的示例：
-
-```js
-1. Let a be **1**.
-2. Let b be a+a.
-3. If b is **2**, then
-   1. Hooray! Arithmetics isn’t broken.
-4. Else
-   1. Boo!
-```
+> 例一、一个Algorithm steps的示例：
+>
+> <hr>
+>
+> 1. Let a be **1**.
+> 2. Let b be a+a.
+> 3. If b is **2**, then
+>    1. Hooray! Arithmetics isn’t broken.
+> 4. Else
+>    1. Boo!
 
 
 
 > 延伸阅读: [§5.2 Algorithm Conventions](https://tc39.github.io/ecma262/#sec-algorithm-conventions)
+
+
 
 ### 2.2. 抽象操作（Abstract Operation）
 
@@ -207,81 +211,97 @@ ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如�
 
 延伸阅读： [§5.2.1 Abstract Operations](https://tc39.github.io/ecma262/#sec-algorithm-conventions-abstract-operations)
 
-### 2.3.  形如[[This]]的结构的含义
 
-有时, 你会看到*[[Notation]]* 写作 `Let proto be obj.[[Prototype]]`的样子。根据上下文的不同，这种符号在技术上可以有不同的含义。 但如果你认为这个notation表示了某种“根据现有JS代码不可察觉到的内置属性“，那么你就走远了。所见即所得，规范中的代码没有什么”隐含信息"！！
+
+### 2.3.  形如*[[Notation]]*的结构的含义
+
+有时，你会看到形如*[[Notation]]*的结构被写到了 这样的表达式中 `Let proto be obj.[[Prototype]]`。根据上下文的不同，这种符号在技术上可以有不同的含义。 如果你认为这个*[[Notation]]*表示了某种“根据现有JS代码不可察觉到的内置属性“，那么我看好你哦，你的前途无可限量。
 
 恰如所说， 这样的写法有三种含义。下面我将以ECMAScript标准中的内容为例来阐述这三种含义.。爱看不看：
 
-#### 2.3.1. *this*是一个记录的一个字段（ A field of a Record）
+
+
+#### 2.3.1. 它表示了一对键值对（ A field of a Record）
 
 ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`映射，这是一种类C的结构。`Record`中的每一对`键-值`对都被称为字段*（field）*。 由于术语`Record`只会出现于规范而不是日常的JS代码中，使用形如*[[Notation]]*的样子来引用`Record`的字段是有意义的。
 
-> 译者注：根据ECMA-262， 6.2.5章节*The Property Descriptor Specification Type*：
+> 例二、属性描述符 [*Property Descriptors*](https://tc39.github.io/ecma262/#sec-property-descriptor-specification-type) 被建模为以下字段：[[Value]]、[[Writable]]、[[Get]]、[[Set]]、[[Enumerable]] 和 [[Configurable]]。形如[IsDataDescriptor](https://tc39.github.io/ecma262/#sec-isdatadescriptor) 的抽象操作广泛使用了这种*[[Notation]]*样式的结构：
 >
-> *Property Descriptor* 类型用于描述一个对象属性的属性的操作及其实例化。*Property Descriptor*类型的值称为记录*(Records)*。每一个字段*（field）*的名称作为一个属性的名称，而根据ECMA-262 [6.1.7.1](https://tc39.github.io/ecma262/#sec-property-attributes)的规定，这个字段的值正是属性所对应的值。此外， 任何字段都可以存在或者不存在。 该规范中用于标记属性描述符记录的文字描述的模式名称正是*Property Descriptor*
-
-例二、属性描述符 [Property Descriptors](https://tc39.github.io/ecma262/#sec-property-descriptor-specification-type) 被建模为以下字段：[[Value]]、[[Writable]]、[[Get]]、[[Set]]、[[Enumerable]] 和 [[Configurable]]。形如[IsDataDescriptor](https://tc39.github.io/ecma262/#sec-isdatadescriptor) 的抽象操作广泛使用了这种记号*（notation）*：
-
-
-
-> 当抽象操作 IsDataDescriptor 被Desc[Property Descriptor](https://tc39.github.io/ecma262/#sec-property-descriptor-specification-type)  调用时， 将会进行下列步骤：
+> （译者注：根据ECMA-262， 6.2.5章节*The Property Descriptor Specification Type*（属性描述符的规范类型）：
+>
+> *Property Descriptor* 类型的数据用于描述一个对象**属性的属性**的操作及其实例化。*Property Descriptor*类型的值称为记录*(Records)*。每一个字段*（field）*的名称作为一个属性的名称，而根据ECMA-262 [6.1.7.1](https://tc39.github.io/ecma262/#sec-property-attributes)的规定，这个字段的值正是属性所对应的值。此外， 任何字段都可以存在或者不存在。 该规范中用于标记属性描述符记录的文字描述的模式的名称正是*Property Descriptor*）
+>
+> <hr>
+>
+> IsAccessorDescriptor ( Desc )
+>
+> When the abstract operation IsDataDescriptor is called with [Property Descriptor](https://tc39.github.io/ecma262/#sec-property-descriptor-specification-type) Desc, the following steps are taken:
 >
 > 1. If Desc is **undefined**, return **false**.
 > 2. If both Desc.[[Value]] and Desc.[[Writable]] are absent, return **false**.
 > 3. Return **true**.
+
+其他关于 [Records](#record) 的实例在这个章节中： [§2.4 Completion Records; ? and !](#completion-records-and-shorthands)
+
+延伸阅读： [§6.2.1 The List and Record specification Types](https://tc39.github.io/ecma262/#sec-list-and-record-specification-type)
+
+
+
+#### 2.3.2. 它表示了JS对象的“内部插槽”
+
+根据ECMAScript规范，JavaScript对象中可能会有所谓的用于**保存数据**的“内部插槽”（internal slot）。 正如记录`Record`的字段*(field)*，这些所谓的内部插槽在使用JS的过程中是不可见的，它不会体现于代码中。
+
+（译者注：但是它会体现于代码结果上：例如内置对象**Data**使用了*[[DateValue]]*这个“内部插槽”，用于存储以世界协调时为基准的当前时间的时间戳。码代码时不可见，但你可以把它打印出来。）
+
+但是，他们会暴露于那些实现了特定细节的工具中，例如谷歌Chrome自带的开发者调试工具。因此，使用形如*[[Notation]]*的结构来描述“内部插槽”是有意义的。关于“内置插槽”的规定在2.2章节中 [§2.5 JavaScript Objects](#javascript-objects)。
+
+现在，你专心看以下的例子就好，不要老想着内部插槽到底是干嘛的：
+
+> 例三：大部分JS对象都会拥有这个内部插槽*[[Prototype]]* ，它指向了这个JS对象的继承来源。这个内部插槽的值正是方法 `Object.getPrototypeOf()` 的返回值。在抽象操作 [OrdinaryGetPrototypeOf](https://tc39.github.io/ecma262/#sec-ordinarygetprototypeof) 中，内部插槽*[[Prototype]]*的值被访问了：
 >
-> Another concrete example of [Records](#record) can be found in the next section, [§2.4 Completion Records; ? and !](#completion-records-and-shorthands).
+> <hr>
 >
-> Further reading: [§6.2.1 The List and Record 规范 Types](https://tc39.github.io/ecma262/#sec-list-and-record-规范-type)
+> When the abstract operation OrdinaryGetPrototypeOf is called with Object O, the following steps are taken:
+>
+> 1. Return O.[[Prototype]].
 
-#### 2.3.2. An internal slot of a JavaScript Object
-
-JavaScript Objects may have so-called [internal slots](#internal-slot) that the 规范 uses to keep data in them. Like [Record fields](#record-field), these [internal slots](#internal-slot) also cannot be observed using JavaScript, but some of them may be exposed through implementation-specific tools like Google Chrome’s DevTools. Thus, it makes sense also to use the [[[Notation\]]](#double-brackets-notation) to describe [internal slots](#internal-slot).
-
-The specifics of [internal slots](#internal-slot) will be covered in [§2.5 JavaScript Objects](#javascript-objects). For now, don’t worry too much about what they are used for, but do note the following example.
+心得：一个JS对象的内部插槽和记录字段的样子看起来一样，但看一眼*[[Notation]]*之前的的内容即可立辨雌雄（在`.`之前的部分）。
 
 
 
-Most JavaScript Objects have an internal slot [[Prototype]] that refers to the Object they inherit from. The value of this [internal slot](#internal-slot) is usually the value that `Object.getPrototypeOf()` returns. In the [OrdinaryGetPrototypeOf](https://tc39.github.io/ecma262/#sec-ordinarygetprototypeof) abstract operation, the value of this [internal slot](#internal-slot) is accessed:
+#### 2.3.3. 它表示了JS对象的一个内置方法
 
-When the abstract operation OrdinaryGetPrototypeOf is called with Object O, the following steps are taken:
+JavaScript对象中也可能会有所谓的”内置方法”（internal method） 。正如“内部插槽”，这些内置方法也不能通过JS代码直接观察到。 因此，使用形如*[[Notation]]*的结构来表示内置方法也是有意义的。
 
-1. Return O.[[Prototype]].
+第2.5章节阐述了内置方法的相关细节 [§2.5 JavaScript Objects](#javascript-objects).。现在，你专心看以下的例子就好，不要老想着内置方法用来干嘛：
 
-Note: [Internal slots](#internal-slot) of Objects and [Record fields](#record-field) are identical in appearance, but they can be disambiguated by looking at the precedent of this notation (the part that came before the dot), whether it is an Object or a [Record](#record). This is usually fairly obvious from the surrounding context.
+> 例四：All JavaScript functions have an internal method [[Call]] that runs that function. The [Call](https://tc39.github.io/ecma262/#sec-call) abstract operation has the following step:
+>
+> 1. Return ? F.[[Call]] (V, argumentsList).
+>
+> 其中F为JavaScript函数对象。在本例中，F使用形参*V*和*argumentsList*对内置方法*[[Call]]*进行了调用。
 
-#### 2.3.3. An internal method of a JavaScript Object
-
-JavaScript Objects may also have so-called [internal methods](#internal-method). Like [internal slots](#internal-slot), these [internal methods](#internal-method) are not directly observable through JavaScript. Thus, it makes sense also to use the [[[Notation\]]](#double-brackets-notation) to describe [internal methods](#internal-method).
-
-The specifics of [internal methods](#internal-method) will be covered in [§2.5 JavaScript Objects](#javascript-objects). For now, don’t worry too much about what they are used for, but do note the following example.
+心得： 我们可以根据这个*[[Notation]]*周围的内容看出它是否长得像一个函数。从而判定它是否为一个内置函数。
 
 
 
-All JavaScript functions have an internal method [[Call]] that runs that function. The [Call](https://tc39.github.io/ecma262/#sec-call) abstract operation has the following step:
+### 2.4. “完成记录” 与 符号 `?` 、 `!`
 
-> 1. Return ? F.[[Call]](V, argumentsList).
+每段ECMAScript规范中的执行语义都显式或隐式地返回了一个描述代码输出结果的**完成记录**（Completion Records）。这个完成记录有三个可能的字段：
 
-where F is a JavaScript function object. In this case, the [[Call]] internal method of F is itself called with arguments V and argumentsList.
+> - 首先，这个完成记录形如：[[Type]]
+>   - (可能的类型有`normal`、 `return`、`throw`、`break`或者`continue`。)
+> - 如果 [[Type]]是 `normal`、`return`、或 `throw`，那么它还会拥有 [[Value]] ("抛出了什么/返回值是啥")。
+>
+> - 如果 [[Type]]是  `break` 或者 `continue`，那么它还会视情况带上一个  [**标记语句**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label#) [[Target]]，来标记这个语句中断的地方 ，或表示中断后从何处继续执行。
 
-Note: This third sense of the [[[Notation\]]](#double-brackets-notation) can be distinguished from the rest by looking like a function call.
+注： 形如`[[ ]]`的双括号常用来表示一个记录的字段（即键值对）。
 
-### 2.4. Completion Records; `?` and `!`
+一个[[Type]]是`normal` 的完成记录称作“正常完成”*（normal completion）*。除了“正常完成”之外，其他的完成记录称为“突然完成”*（abrupt completion）*。
 
-Every runtime semantic in the ECMAScript spec either explicitly or implicitly returns a Completion Record that reports its outcome. This [Completion Record](#completion-record) is a [Record](#record) that has three possible [fields](#record-field):
+大多情况下，你会处理到的*abrupt completion*的记录其 [[[Type\]]](#completion-record-type) 为 `throw`。其他三种*abrupt completion*的完成记录只会在你观察“特定语法元素的计算过程”时有点作用。实际上，你并不会在内置函数的定义中看到其他类型，因为关键词`break`/`continue`/`return` 不会跨函数域工作。
 
-- a [[Type]] (`normal`, `return`, `throw`, `break`, or `continue`)
-- if the [[[Type\]]](#completion-record-type) is `normal`, `return`, or `throw`, then it can also have a [[Value]] ("what’s returned/thrown")
-- if the [[[Type\]]](#completion-record-type) is `break` or `continue`, then it can optionally carry a [label](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label#)known as [[Target]] that script execution breaks from/continues to as a result of this runtime semantic
-
-Note: Two brackets are used to denote [fields](#record-field) of [Records](#record). See [§2.3.1 A field of a Record](#double-brackets-field-of-record) for a primer on [Records](#record) and the notations associated with them.
-
-A [Completion Record](#completion-record) whose [[[Type\]]](#completion-record-type) is `normal` is called a normal completion. Every [Completion Record](#completion-record) other than a [normal completion](#normal-completion) is also known as an abrupt completion.
-
-Most of the time, you are only going to deal with [abrupt completions](#abrupt-completion)whose [[[Type\]]](#completion-record-type) is `throw`. The other three abrupt completion types are only useful in seeing how a specific syntactic element is evaluated. In fact, you will never see any of those other types in the definition of a built-in function, since `break`/`continue`/`return` don’t work across function boundaries.
-
-Further reading: [§6.2.3 The Completion Record 规范 Type](https://tc39.github.io/ecma262/#sec-completion-record-规范-type)
+延伸阅读： [§6.2.3 The Completion Record Specification Type](https://tc39.github.io/ecma262/#sec-completion-record-规范-type)
 
 ------
 
@@ -436,7 +456,7 @@ Another way of thinking about the relations between Objects, [internal methods](
 
 All of these relations are summarized by the following UML diagram (click to enlarge):
 
-[![Boxes denoting concepts and connections between them denoting hierarchy](object-uml.svg)](object-uml.svg)
+[![Boxes denoting concepts and connections between them denoting hierarchy]()](object-uml.svg)
 
 ### 2.6. Example: `String.prototype.substring()`
 
@@ -567,7 +587,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
 - ArrayCreate ( length [ , proto ] ) ([spec](https://tc39.github.io/ecma262/#sec-arraycreate))
 
-  Create an array object of length length, with proto as the value of the [[Prototype]] [internal slot](#internal-slot). If proto is not specified, [%ArrayPrototype%](https://tc39.github.io/ecma262/#sec-properties-of-the-array-prototype-object) in the [current realm](https://tc39.github.io/ecma262/#current-realm) is used. Equivalent to `new Array(length)` if the `Array`constructor and all of its properties have not been monkeypatched, and proto is not specified or [%ArrayPrototype%](https://tc39.github.io/ecma262/#sec-properties-of-the-array-prototype-object) in the [current realm](https://tc39.github.io/ecma262/#current-realm).
+  Create an array object of length length, with proto as the value of the [[Prototype]][internal slot](#internal-slot). If proto is not specified, [%ArrayPrototype%](https://tc39.github.io/ecma262/#sec-properties-of-the-array-prototype-object) in the [current realm](https://tc39.github.io/ecma262/#current-realm) is used. Equivalent to `new Array(length)` if the `Array`constructor and all of its properties have not been monkeypatched, and proto is not specified or [%ArrayPrototype%](https://tc39.github.io/ecma262/#sec-properties-of-the-array-prototype-object) in the [current realm](https://tc39.github.io/ecma262/#current-realm).
 
 - Call ( F, V [ , argumentsList ] ) ([spec](https://tc39.github.io/ecma262/#sec-call))
 
@@ -599,7 +619,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
 - IsArray ( argument ) ([spec](https://tc39.github.io/ecma262/#sec-isarray))
 
-  Returns whether argument is an `Array` [exotic object](#exotic-object), or if argument is a `Proxy` [exotic object](#exotic-object), whether argument’s innermost [[ProxyTarget]] [internal slot](#internal-slot) is an `Array` [exotic object](#exotic-object). Equivalent to `Array.isArray(argument)`.
+  Returns whether argument is an `Array` [exotic object](#exotic-object), or if argument is a `Proxy` [exotic object](#exotic-object), whether argument’s innermost [[ProxyTarget]][internal slot](#internal-slot) is an `Array` [exotic object](#exotic-object). Equivalent to `Array.isArray(argument)`.
 
 - IsCallable ( argument ) ([spec](https://tc39.github.io/ecma262/#sec-iscallable))
 
@@ -607,7 +627,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
 - IsConstructor ( argument ) ([spec](https://tc39.github.io/ecma262/#sec-isconstructor))
 
-  Returns whether argument is a [function object](#function-object) with a [[Construct]] [internal method](#internal-method).
+  Returns whether argument is a [function object](#function-object) with a [[Construct]][internal method](#internal-method).
 
 - ReturnIfAbrupt ( argument ) ([spec](https://tc39.github.io/ecma262/#sec-returnifabrupt))
 
