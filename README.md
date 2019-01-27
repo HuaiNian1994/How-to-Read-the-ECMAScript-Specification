@@ -22,23 +22,23 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
 ## 内容结构
 
-1. 1[前言](#前言)
+1. [前言](#prelude)
 
-   [1.1我为什么需要阅读ECMAScript规范](#我为什么需要阅读ECMAScript规范)
+   [1.1我为什么需要阅读ECMAScript规范](#why-should-i-read-the-ecmascript-specification)
 
-   [1.2哪些属于ECMAScript规范，哪些不属于呢](#哪些属于ECMAScript规范，哪些不属于呢)
+   [1.2哪些属于ECMAScript规范，哪些不属于呢](#what-belongs-to-the-ecmascript-specification)
 
-   [1.3ECMAScript规范怎么找?](#ECMAScript规范怎么找?)
+   [1.3ECMAScript规范怎么找?](#where-is-the-ecmascript-specification)
 
-   [1.4 开始阅读ECMASCript规范](#开始阅读ECMASCript规范)
+   [1.4 开始阅读ECMASCript规范](#navigating-the-spec)
 
-2. 2[执行语义](执行语义（Runtime sematics）)
+2. [执行语义](#Runtime sematics)
 
    [2.1算法步骤（Algorithm steps）](#算法步骤（Algorithm steps）)
 
-   [2.2抽象操作（Abstract Operation）](#抽象操作（Abstract Operation）)
+   [2.2抽象操作（Abstract Operation）](#Abstract Operation)
 
-   2.3 形如*[[Notation]]*的结构的含义
+   <a src="#what-is-this">2.3 形如[[Notation]]的结构的含义</a> 
 
    ​	[2.3.1它是一个记录的一个字段（ A field of a Record）](#它是一个记录的一个字段（ A field of a Record）)	
 
@@ -56,7 +56,7 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    [2.8Example: `typeof` operator](#example-typeof-operator)
 
- <div id="前言">1. 前言</div>
+ <h3 id="prelude" >1. 前言</h3>
 
 现在，你决定每天阅读一点ECMAScript规范。也许是为了陶冶情操，或者这是新年立的FLAG，亦或你老妈觉得你需要读。哎，不管是什么原因，欢迎入坑!
 
@@ -64,7 +64,7 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
 
 
-### 1.1.我为什么需要阅读ECMAScript规范
+  <h3 id="why-should-i-read-the-ecmascript-specification" >1.1.我为什么需要阅读ECMAScript规范</h3>
 
 ECMAScript 规范是所有JavaScript实例的行为的权威来源。不管这个实例实现于你的浏览中、在你服务器Node.js环境中、在宇航服中[[NODEJS-NASA\]](#biblio-nodejs-nasa)，还是在你的物联网设备里 [[JOHNNY-FIVE\]](#biblio-johnny-five).。所有JavaScript 引擎的开发者都依据ECMAScript规范开发，让程序可以表现出各种闪亮的特性。JavaScript 引擎本身也如此。
 
@@ -100,7 +100,7 @@ Okay，现在你知道阅读规范会帮助你了解、看清一门编程语言�
 
 
 
-### 1.2. ECMAScript标准的内容范围
+<h3 id="what-belongs-to-the-ecmascript-specification" >1.2. ECMAScript标准的内容范围</h3>
 
 课本给出的答案是： "ECMAScript 规范只包含语言特性"。呵呵，这句话说了等于没说，相当于说是 "JavaScript 的特性就是 JavaScript"，"宪法的第一条是宪法的第一条"。
 
@@ -134,7 +134,7 @@ Okay，现在你知道阅读规范会帮助你了解、看清一门编程语言�
 
 
 
-### 1.3. ECMAScript规范*在哪*？
+<h3 id="where-is-the-ecmascript-specification" >1.3. ECMAScript规范*在哪*？</h3>
 
 当你搜索 "ECMAScript 规范"时，你会看到很搜索结果都会王婆卖瓜，称自己是“最正统的ECMAScript规范”。 你该如何选择？
 
@@ -150,7 +150,7 @@ ECMAScript 语言规范由Ecma International Technical Committee 39 维护。(�
 >
 >
 
-### 1.4. 开始阅读ECMASCript规范
+<h3 id="navigating-the-spec" >1.4. 开始阅读ECMASCript规范</h3>
 
 ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆分为逻辑块，但它的内容依然繁杂。
 
@@ -183,7 +183,7 @@ ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆
 
 
 
-## 2. 执行语义（Runtime sematics）
+<h3 id="Runtime sematics" >2、执行语义（Runtime sematics） </h3>
 
 JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅。通常，它描述了人们最关心的问题。
 
@@ -193,7 +193,7 @@ JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅。�
 
 
 
-### 2.1. 算法步骤（Algorithm steps）
+<h3 id="Algorithm steps" >2.1. 算法步骤（Algorithm steps） </h3>
 
 ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如同伪代码一样，只不过Algorithm steps会更加的严格。
 
@@ -214,7 +214,7 @@ ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如�
 
 
 
-### 2.2. 抽象操作（Abstract Operation）
+<h3 id="Abstract Operation" >2.2. 抽象操作（Abstract Operation） </h3>
 
 有时你会在本规范中看到类函数的抽象操作。例如， `Boolean()` 函数运行的第一步规定为：
 
@@ -229,9 +229,9 @@ ECMAScript中，大部分语句的执行语义由Algorithm steps给出，正如�
 
 
 
-### 2.3.  形如*[[Notation]]*的结构的含义
+<h3 id="what-is-this" >2.3.  形如[[Notation]]的结构的含义 </h3>
 
-有时，你会看到形如*[[Notation]]*的结构被写到了 这样的表达式中 `Let proto be obj.[[Prototype]]`。根据上下文的不同，这种符号在技术上可以有不同的含义。 如果你认为这个*[[Notation]]*表示了某种“根据现有JS代码不可察觉到的内置属性“，那么我看好你哦，你的前途无可限量。
+有时，你会看到形如[[Notation]]的结构被写到了 这样的表达式中 `Let proto be obj.[[Prototype]]`。根据上下文的不同，这种符号在技术上可以有不同的含义。 如果你认为这个[[Notation]]表示了某种“根据现有JS代码不可察觉到的内置属性“，那么我看好你哦，你的前途无可限量。
 
 恰如所说， 这样的写法有三种含义。下面我将以ECMAScript标准中的内容为例来阐述这三种含义.。爱看不看：
 
