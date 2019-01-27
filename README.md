@@ -23,22 +23,38 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 ## 内容结构
 
 1. 1[前言](#前言)
-   1. [1.1我为什么需要阅读ECMAScript规范](#我为什么需要阅读ECMAScript规范)
-   2. [1.2哪些属于ECMAScript规范，哪些不属于呢](#哪些属于ECMAScript规范，哪些不属于呢)
-   3. [1.3ECMAScript规范怎么找?](#ECMAScript规范怎么找?)
-   4. [1.4 开始阅读ECMASCript规范](#开始阅读ECMASCript规范)
+
+   [1.1我为什么需要阅读ECMAScript规范](#我为什么需要阅读ECMAScript规范)
+
+   [1.2哪些属于ECMAScript规范，哪些不属于呢](#哪些属于ECMAScript规范，哪些不属于呢)
+
+   [1.3ECMAScript规范怎么找?](#ECMAScript规范怎么找?)
+
+   [1.4 开始阅读ECMASCript规范](#开始阅读ECMASCript规范)
+
 2. 2[执行语义](执行语义（Runtime sematics）)
-   1. [2.1算法步骤（Algorithm steps）](#算法步骤（Algorithm steps）)
-   2. [2.2抽象操作（Abstract Operation）](#抽象操作（Abstract Operation）)
-   3. 2.3 形如*[[Notation]]*的结构的含义
-      1. [2.3.1它是一个记录的一个字段（ A field of a Record）](#它是一个记录的一个字段（ A field of a Record）)
-      2. [2.3.2它表示了JS对象的“内部插槽”](#它表示了JS对象的"内部插槽")
-      3. [2.3.3它表示了JS对象的一个内置方法](#它表示了JS对象的一个内置方法)
-   4. [2.4Completion Records; `?` and `!`](#completion-records-and-shorthands)
-   5. [2.5JavaScript Objects](#javascript-objects)
-   6. [2.6Example: `String.prototype.substring()`](#example-string-prototype-substring)
-   7. [2.7Example: Can `Boolean()` and `String()` ever throw exceptions?](#example-can-boolean-and-string-ever-throw-exceptions)
-   8. [2.8Example: `typeof` operator](#example-typeof-operator)
+
+   [2.1算法步骤（Algorithm steps）](#算法步骤（Algorithm steps）)
+
+   [2.2抽象操作（Abstract Operation）](#抽象操作（Abstract Operation）)
+
+   2.3 形如*[[Notation]]*的结构的含义
+
+   ​	[2.3.1它是一个记录的一个字段（ A field of a Record）](#它是一个记录的一个字段（ A field of a Record）)	
+
+   ​	[2.3.2它表示了JS对象的“内部插槽”](#它表示了JS对象的"内部插槽")
+
+   ​	[2.3.3它表示了JS对象的一个内置方法](#它表示了JS对象的一个内置方法)
+
+   [2.4Completion Records; `?` and `!`](#completion-records-and-shorthands)
+
+   [2.5JavaScript Objects](#javascript-objects)
+
+   [2.6Example: `String.prototype.substring()`](#example-string-prototype-substring)
+
+   [2.7Example: Can `Boolean()` and `String()` ever throw exceptions?](#example-can-boolean-and-string-ever-throw-exceptions)
+
+   [2.8Example: `typeof` operator](#example-typeof-operator)
 
 ## 1. 前言
 
