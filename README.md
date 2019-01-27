@@ -38,7 +38,7 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    [2.2抽象操作（Abstract Operation）](#Abstract-Operation)
 
-   <a src="#what-is-this">2.3 形如[[Notation]]的结构的含义</a> 
+   <a href="#what-is-this">2.3 形如[[Notation]]的结构的含义</a> 
 
    ​	[2.3.1它是一个记录的一个字段（ A field of a Record）](#它是一个记录的一个字段（ A field of a Record）)	
 
