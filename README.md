@@ -58,7 +58,7 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
  <h3 id="prelude" >1. 前言</h3>
 
-现在，你决定每天阅读一点ECMAScript规范。也许是为了陶冶情操，或者这是新年立的FLAG，亦或你老妈觉得你需要读。哎，不管是什么原因，欢迎入坑!
+现在，你决定每天阅读一点ECMAScript规范。也许是为了陶冶情操，或者这是新年立的FLAG，亦或你妈妈觉得你需要读。哎，不管是什么原因，欢迎入坑!
 
 > ​	注意: 在我的这篇文档中，我只会使用 "ECMAScript" 来表示规范本身，即ECMA-262，而对于非规范的泛指我则使用 "JavaScript" 。 (ECMAScript和JavaScript之间有一些历史上的区别，但是讨论这些已经超出了本文的范围，您可以很容易地[查询这个区别](https://www.google.com/search?q=ecmascript+vs.+ JavaScript)。)
 
@@ -287,7 +287,7 @@ ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`�
 
 （译者注：但是它会体现于代码结果上：例如内置对象**Data**使用了[[DateValue]]这个“内部插槽”，用于存储以世界协调时为基准的当前时间的时间戳。码代码时不可见，但你可以把它打印出来。）
 
-但是，他们会暴露于那些实现了特定细节的工具中，例如谷歌Chrome自带的开发者调试工具。因此，使用形如[[Notation]]的结构来描述“内部插槽”是有意义的。关于“内置插槽”的规定在2.2章节中 [§2.5 JavaScript Objects](#javascript-objects)。
+但是，他们会暴露于那些实现了特定细节的工具中，例如谷歌Chrome自带的开发者调试工具。因此，使用形如[[Notation]]的结构来描述“内部插槽”是有意义的。关于“内部插槽”的规定在2.2章节中 [§2.5 JavaScript Objects](#javascript-objects)。
 
 现在，你专心看以下的例子就好，不要老想着内部插槽到底是干嘛的：
 
@@ -425,7 +425,7 @@ JavaScript对象中也可能会有所谓的”内置方法”（internal method�
 >
 > 1. Let result be ! AbstractOp().
 >
->    > 注：虽然`?`转发了一些我们可能得到的错误，但是`!`决定了我们不会从这个调用中得到形如*abrupt completion*的完成记录。正如使用问号的情形，我们不处理完成记录，结果可立即被使用。
+>    > 注：虽然`?`转发了一些我们可能得到的错误，但是`!`决定了我们不会从这个调用中得到形如*abrupt completion*的完成记录。正如使用问号`?`的情形，我们不用去处理完成记录，结果可立即被使用。
 >
 > 2. result is the result we need. We can now do more things with it.
 
@@ -437,78 +437,95 @@ JavaScript对象中也可能会有所谓的”内置方法”（internal method�
 >
 > — Excerpted from [§7.2.14 Abstract Equality Comparison](https://tc39.github.io/ecma262/#sec-abstract-equality-comparison).
 
-在此， `!`仅仅意为ToNumber()不会返回一个异常。而不是说这个函数值取反。
+在此， `!`仅仅意为ToNumber()不会返回一个异常。而不是说这个表达式取反。
 
 延伸阅读：[§5.2.3.4 ReturnIfAbrupt Shorthands](https://tc39.github.io/ecma262/#sec-returnifabrupt-shorthands).
 
-### 2.5. JavaScript Objects
+<h3 id="javascript-objects">2.5. JavaScript Objects</h3>
 
-In ECMAScript, every Object has a set of internal methods that the rest of the 规范 call on to do certain tasks. A few of these [internal methods](#internal-method)that all Objects have are:
+在ECMAScript中， 每个对象都有一整套的内置方法。有一些内置方法是所对象都拥有的。例如：
 
-- [[Get]], which gets a property on an Object (e.g. `obj.prop`)
-- [[Set]], which sets a property on an Object (e.g. `obj.prop = 42;`)
-- [[GetPrototypeOf]], which gets the Object’s prototype (i.e., `Object.getPrototypeOf(obj)`)
-- [[GetOwnProperty]], which gets the Property Descriptor of an own property of an Object (i.e., `Object.getOwnPropertyDescriptor(obj,"prop")`)
-- [[Delete]], which deletes a property on an Object (e.g. `delete obj.prop`)
+- [[Get]]，获取对象中的属性 (即： `obj.prop`)
 
-(an exhaustive list is available in [§6.1.7.2 Object Internal Methods and Internal Slots](https://tc39.github.io/ecma262/#sec-object-internal-methods-and-internal-slots)).
+- [[Set]]，设定对象的属性 (即：`obj.prop = 42;`)
 
-Based on this definition, function objects (or just "functions") are simply Objects that additionally have the [[Call]] internal method, and possibly the [[Construct]] internal method too; for this reason they are also known as callable objects.
+- [[GetPrototypeOf]]，获取一个对象的原型对象 (例如： `Object.getPrototypeOf(obj)`)
 
-The spec then divides all Objects into two camps: [ordinary objects](#ordinary-object) and [exotic objects](#exotic-object). Most of the objects you encounter are ordinary objects, which means that all of their [internal methods](#internal-method) are the default ones specified in [§9.1 Ordinary Object Internal Methods and Internal Slots](https://tc39.github.io/ecma262/#sec-ordinary-object-internal-methods-and-internal-slots).
+- [[GetOwnProperty]]，获取一个对象自身属性的属性描述符*( Property Descriptor )*
 
-However, ECMAScript spec also defines a few kinds of exotic objects, which may override the default implementations of those internal methods. There are certain minimal constraints put on what exotic objects are allowed to do, but in general the overriden internal methods can do a lot of acrobatics without going against the spec.
+  (例如：`Object.getOwnPropertyDescriptor(obj,"prop")`)
+
+- [[Delete]]，删除一个对象的属性 (例如： `delete obj.prop`)
+
+(这份详细的清单在6.1.7.2章节中 [§6.1.7.2 Object Internal Methods and Internal Slots](https://tc39.github.io/ecma262/#sec-object-internal-methods-and-internal-slots))。
+
+基于这种定义，函数不过是额外拥有了[[Call]]内置方法的对象，也许也会内置[[Construct]]方法。 因此，函数也被称为可调用的对象。
+
+ECMAScript规范把所有对象分为了两个阵营：**普通对象** *（ordinary object）*，和**外来对象** *（exotic object）* *。大部分你遇到的对象都是普通对象，也就是说，根据9.1章节的规定 [§9.1 Ordinary Object Internal Methods and Internal Slots](https://tc39.github.io/ecma262/#sec-ordinary-object-internal-methods-and-internal-slots)，他们所有的内部方法都是默认的方法。
+
+(*译者注：从ES6开始，对象被分为 普通对象 *（ordinary object）*，和外来对象 *（exotic object）*。所谓普通对象，就是具备了对象的所有基本内置方法的那些对象。而“不完全具备所有对象拥有的基本内置方法”的对象则被称为外来对象。一个对象不是普通对象就是外来对象。)
+
+不仅如此， ECMAScript 还定义了外来对象的种类，其中一些会覆盖他们默认继承的内部方法。虽然有少部分的硬性规定限制了外来对象的行为，但通常来说，一些被覆写的内置方法可以在不违反ECMAScript规定的情况下实现很多黑科技特效。
+
+> 例九、`Array` 对象就是一个外来对象。 一些关于`Array`对象`length` 属性的特殊语义不能通过使用“普通对象的可用工具”来实现。
+>
+> 比如，虽然 `length` 属性看起来不过是一个普通的数据属性，但设置 `Array`对象的 `length` 属性将会导致元素从数组中删除。与之相反，`new Map().size` 只是一个由`Map.prototype`指定的用于获取的函数。并不会像`[].length` 那样有一些诡异的效果。
+>
+> ------
+>
+> ```js
+> > const arr = [0, 1, 2, 3];
+> > console.log(arr);
+> [ 0, 1, 2, 3 ]
+> > arr.length = 1;
+> > console.log(arr);
+> [ 0 ]
+> > console.log(Object.getOwnPropertyDescriptor([], "length"));
+> { value: 1,
+>   writable: true,
+>   enumerable: false,
+>   configurable: false }
+> ```
+>
+> ```js
+> > console.log(Object.getOwnPropertyDescriptor(new Map(), "size"));
+> undefined
+> > console.log(Object.getOwnPropertyDescriptor(Map.prototype, "size"));
+> { get: [Function: get size],
+>   set: undefined,
+>   enumerable: false,
+>   configurable: true }
+> ```
+>
+> 通过覆写内置方法 [[DefineOwnProperty]]，这个行为可被实现。详情见9.4.2章节 [§9.4.2 Array Exotic Objects](https://tc39.github.io/ecma262/#sec-array-exotic-objects) 。
 
 
 
-`Array` objects are one kind of these [exotic objects](#exotic-object). Some special semantics around the `length` property of `Array` objects cannot be achieved using the instruments available to [ordinary objects](#ordinary-object).
 
-One of them is the fact that setting the `length` property of an `Array`object can remove properties from the object, but the `length` property seems to be just an ordinary data property. In contrast, `new Map().size` is only a getter function specified on `Map.prototype`, and does not have the magical properties `[].length` does.
 
-```
-> const arr = [0, 1, 2, 3];
-> console.log(arr);
-[ 0, 1, 2, 3 ]
-> arr.length = 1;
-> console.log(arr);
-[ 0 ]
-> console.log(Object.getOwnPropertyDescriptor([], "length"));
-{ value: 1,
-  writable: true,
-  enumerable: false,
-  configurable: false }
-> console.log(Object.getOwnPropertyDescriptor(new Map(), "size"));
-undefined
-> console.log(Object.getOwnPropertyDescriptor(Map.prototype, "size"));
-{ get: [Function: get size],
-  set: undefined,
-  enumerable: false,
-  configurable: true }
-```
-
-This behavior is achieved by overriding the [[DefineOwnProperty]] internal method. See [§9.4.2 Array Exotic Objects](https://tc39.github.io/ecma262/#sec-array-exotic-objects) for details.
-
-The ECMAScript spec also allows other specs to define their own exotic objects. It is through this mechanism the limitations browsers put on [cross-origin API access](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#Cross-origin_script_API_access) are specified (see `WindowProxy`) [[HTML\]](#biblio-html). It is also possible for JavaScript programmers to create their own exotic objects through the `Proxy` API.
+ECMAScript规范也允许其他规范来定义他们自己的外来对象。正是由于这个机制，HTML规范才 (见 [WindowProxy](https://html.spec.whatwg.org/multipage/window-object.html#windowproxy))才规定了浏览器实现跨源API访问 [cross-origin API access](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#Cross-origin_script_API_access) 。也正是因此，JS程序猿们可以通过使用[Proxy](https://tc39.github.io/ecma262/#sec-proxy-objects) API来创造他们自己的“外来对象”。
 
 ------
 
-JavaScript Objects may also have internal slots defined to contain certain types of values. I tend to think of [internal slots](#internal-slot) as Symbol-named properties that are hidden even to `Object.getOwnPropertySymbols()`. Both [ordinary objects](#ordinary-object) and [exotic objects](#exotic-object) are allowed to have [internal slots](#internal-slot).
+JavaScript 对象可能也会定义有一些用于包含某种类型的值的内部插槽*（internal slot）*。我倾向于把这种连[Object.getOwnPropertySymbols()](https://tc39.github.io/ecma262/#sec-object.getownpropertysymbols)都不可见的内部插槽看做“依据符号命名的”属性。依据规定，普通对象和外来对象都可以拥有内部插槽。  
 
-In [§2.3.2 An internal slot of a JavaScript Object](#double-brackets-internal-slot-of-javascript-object), I mentioned an [internal slot](#internal-slot) called [[Prototype]] that most Objects have. (In fact, all [ordinary objects](#ordinary-object) and even some [exotic objects](#exotic-object) like `Array` objects have it.) But we also know that there is an [internal method](#internal-method) called [[GetPrototypeOf]] that I briefly described above. What is the difference?
-
-The keyword here is *most*: while *most* objects have the [[Prototype]] internal slot, *all* objects implement the [[GetPrototypeOf]] internal method. Notably, `Proxy` objects do not have their own [[Prototype]], and its [[[GetPrototypeOf\]]](https://tc39.github.io/ecma262/#sec-proxy-object-internal-methods-and-internal-slots-getprototypeof) internal method instead defer to either the registered handler or the prototype of its target, stored in the [[ProxyTarget]] internal slot of the `Proxy` object.
-
-For this reason, when dealing with Objects, it is almost always a good idea to refer to the appropriate [internal method](#internal-method) rather than directly looking at the value of an [internal slot](#internal-slot).
+> 在上面的[2.3.2章节](#2-3-2)中，我提到：大部分对象都有一个名为[[Prototype]]的内部插槽（实际上，所有普通对象甚至一些外来对象都有这个内部插槽，包括Array对象）。与此同时，我们也知道有个叫[[GetPrototypeOf]]的内部插槽。二者有何区别？
+>
+> 最大的区别就是关键字不同：**大部分**对象都拥有[[Prototype]]这个内部插槽，而所有对象**都**实现了 [[GetPrototypeOf]] 这个内置方法。注意：代理对象*[(proxy objects)](https://tc39.github.io/ecma262/#sec-proxy-objects)*没有自己的[[Prototype]]，而他自己的内置方法[[[GetPrototypeOf\]]](https://tc39.github.io/ecma262/#sec-proxy-object-internal-methods-and-internal-slots-getprototypeof) 监听的是所注册的handler，或者形参target的原型对象。这个被监听的对象存放于代理对象的内部插槽[[ProxyTarget]]中。
+>
+> 因此在处理对象时，最好引用适合的内置方法，而不是直接看内部插槽的值。
 
 ------
 
-Another way of thinking about the relations between Objects, [internal methods](#internal-method), and [internal slots](#internal-slot) are through a classical object-oriented lens. "Object" is like an interface specifying several [internal methods](#internal-method) that must be implemented. [Ordinary objects](#ordinary-object) provide default implementations, which [exotic objects](#exotic-object) may override either partially or fully. On the other hand, [internal slots](#internal-slot) are like instance variables of an Object – the implementation details of that Object.
+另一种思考“对象之间的关系”的思路：内置方法*（internal method）*和内部插槽*（internal slot）*是通过一个经典的面向对象的镜头来呈现的。所谓“对象”，就如一个指定了很多”必须实现的**内置方法**”的接口。 普通对象提供了默认的实现方式，其中，这些实现的方式可能被外来对象部分或完全地覆写。而另一方面，**内部插槽**就像一个对象的实例的变量——包含了这个实例的实现细节。
 
-All of these relations are summarized by the following UML diagram (click to enlarge):
+这些关系都被总结到了下列这张UML图中（点击放大）：
 
-[![Boxes denoting concepts and connections between them denoting hierarchy]()](object-uml.svg)
+![object-uml](object-uml.svg)
 
-### 2.6. Example: `String.prototype.substring()`
+
+
+<h3 id="example-string-prototype-substring">2.6. Example: `String.prototype.substring()`</h3>
 
 Now that we have a pretty good understanding of how the spec is organized and written, let’s practice!
 
@@ -568,7 +585,7 @@ At the same time, ChakraCore version 1.7.5.0 (the JavaScript engine in Microsoft
 TypeError: String.prototype.substring: 'this' is null or undefined
 ```
 
-### 2.7. Example: Can `Boolean()` and `String()` ever throw exceptions?
+<h3 id="example-can-boolean-and-string-ever-throw-exceptions">2.7. Example: Can `Boolean()` and `String()` ever throw exceptions?</h3>
 
 When writing mission-critical code, one must put exception handling at the forefront in programming. As such, the question of "can *some built-in function* ever throw an exception?" may be oft-pondered.
 
@@ -625,7 +642,7 @@ Several examples where `String()` throws
 
 So for `String()`, our conclusion is that **it never throws exceptions for primitive values, but may throw errors for Objects.**
 
-### 2.8. Example: `typeof` operator
+<h3 id="example-typeof-operator">2.8. Example: `typeof` operator</h3>
 
 So far, we’ve only analyzed API functions, let’s try something different.
 
@@ -795,7 +812,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 - [[[Type\]]](#completion-record-type), in §2.4
 - [[[Value\]]](#completion-record-value), in §2.4
 
-### Terms defined by reference
+### §Terms defined by reference
 
 - [CONSOLE]
 
