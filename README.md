@@ -521,7 +521,7 @@ JavaScript 对象可能也会定义有一些用于包含某种类型的值的内
 
 这些关系都被总结到了下列这张UML图中（点击放大）：
 
-![object-uml](object-uml.svg)
+[![object-uml](object-uml.svg)](https://raw.githubusercontent.com/HuaiNian1994/How-to-Read-the-ECMAScript-Specification/master/object-uml.svg?sanitize=true)
 
 
 
