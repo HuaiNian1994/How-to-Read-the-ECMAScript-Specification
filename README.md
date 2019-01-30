@@ -48,7 +48,7 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    [2.4. “完成记录” 与 速记符号 `?`&`!`](#completion-records-and-shorthands)
 
-   [2.5JavaScript Objects](#javascript-objects)
+   [2.5JavaScript 对象](#javascript-objects)
 
    [2.6Example: `String.prototype.substring()`](#example-string-prototype-substring)
 
@@ -455,7 +455,7 @@ JavaScript对象中也可能会有所谓的”内置方法”（internal method�
 
 延伸阅读：[§5.2.3.4 ReturnIfAbrupt Shorthands](https://tc39.github.io/ecma262/#sec-returnifabrupt-shorthands).
 
-<h3 id="javascript-objects">2.5. JavaScript Objects</h3>
+<h3 id="javascript-objects">2.5. JavaScript 对象</h3>
 
 在ECMAScript中， 每个对象都有一整套的内置方法。有一些内置方法是所对象都拥有的。例如：
 
@@ -967,3 +967,4 @@ Step 2 ：检查这个*NewTarget*的值是否为 **undefined**。ES2015首次提
 - [YDKJS]
 
   Kyle Simpson. [You Don't Know JS (book series)](https://github.com/getify/You-Dont-Know-JS). URL: <https://github.com/getify/You-Dont-Know-JS)
+
