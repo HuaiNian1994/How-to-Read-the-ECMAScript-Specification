@@ -8,7 +8,7 @@
 
   [Timothy Gu](https://timothygu.me/) [timothygu99@gmail.com](mailto:timothygu99@gmail.com)
 
-- 说明：这篇文档由我本人（槐念，微信公众号Huainian_1994）逐字翻译而得，有些许删改，力求保留原意，包括感情色彩。本文不得用于商业用途，而对于其他用途，在注明出处和作者的前提下可随意转载、删改本翻译文档，同时需要遵守原文的版权规范。
+- 说明：这篇文档由我本人（槐念，微信公众号Huainian_1994）逐字翻译而得，力求保留原意，包括感情色彩。**虽原文行文赘余，但我未对其作删改**。此外，原文中的4.1章节被我删除，4.2变更为4.1。本文不得用于商业用途，而对于其他用途，在注明出处和作者的前提下可随意转载、删改本翻译文档，同时需要遵守原文的版权规范。
 - 注意：如果你有外语障碍，那么本文你读了也收获不大。因为第一视角是默认无语言障碍的，且ECMAScript标准文档为英文，丢翻译引擎会导致大量专业术语语义扭曲，行文偏离原意，失去阅读的意义。而本文没有阐述“如何克服语言障碍获取知识”的相关内容。(有人会问，那你翻译了作甚？无语言障碍的人直接读原文，谁看你译文？对此我的回答是：我高兴，关你鸟事 :)
 - 下列是原文版权信息：
 
@@ -52,11 +52,25 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
    [2.6Example: `String.prototype.substring()`](#example-string-prototype-substring)
 
-   [2.7Example: Can `Boolean()` and `String()` ever throw exceptions?](#example-can-boolean-and-string-ever-throw-exceptions)
+   [2.7. Example: Boolean() 和 String() 会抛出异常吗？](#example-can-boolean-and-string-ever-throw-exceptions)
 
-   [2.8Example: `typeof` operator](#example-typeof-operator)
+   [2.8. Example: 操作符 typeof ](#example-typeof-operator)
 
- <h3 id="prelude" >1. 前言</h3>
+3. [术语表](#glossary)
+
+   3.1[常用的抽象操作](#common-abstract-operations)
+
+4. [用词出处](#index)
+
+   4.1[本文所用术语的标准来源](#index-defined-elsewhere)
+
+5. [参考资料](#references)
+
+   5.1[开卷有益](#informative)
+
+
+
+<h2 id="prelude" >1. 前言</h2>
 
 现在，你决定每天阅读一点ECMAScript规范。也许是为了陶冶情操，或者这是新年立的FLAG，亦或你妈妈觉得你需要读。哎，不管是什么原因，欢迎入坑!
 
@@ -183,7 +197,7 @@ ECMAScript 规范包含了海量的信息。尽管它的作者们尽力把它拆
 
 
 
-<h3 id="Runtime-sematics" >2、执行语义（Runtime sematics） </h3>
+<h2 id="Runtime-sematics" >2、执行语义（Runtime sematics） </h2>
 
 JS语言和大量API的执行语义占据了ECMAScript规范的很大篇幅，这通常也是人们问题最多的地方。
 
@@ -355,7 +369,7 @@ JavaScript对象中也可能会有所谓的”内置方法”（internal method�
 >
 > 2. If resultCompletionRecord is an abrupt completion, return resultCompletionRecord.
 >
->    > 注：此处，若resultCompletionRecord的[[Type]] 是 *abrupt completion* 的，那么他会直接返回它本身。也就是说，在抽象操作中抛出的错误将被转发，而接下来的步骤将被终止。
+>    > 注：此处，若resultCompletionRecord的[[Type]] 是 “突然完成” 的，那么他会直接返回它本身。也就是说，在抽象操作中抛出的错误将被转发，而接下来的步骤将被终止。
 >
 > 3. Let result be resultCompletionRecord.[[Value]].
 >
@@ -525,106 +539,110 @@ JavaScript 对象可能也会定义有一些用于包含某种类型的值的内
 
 
 
-<h3 id="example-string-prototype-substring">2.6. Example: `String.prototype.substring()`</h3>
 
-Now that we have a pretty good understanding of how the spec is organized and written, let’s practice!
 
-Suppose I now have the following question:
+<h3 id="example-string-prototype-substring">2.6. Example: String.prototype.substring()</h3>
 
-> Without running the code, what does the following code fragment return?
+现在我们对ECMAScript标准的编撰有个一个不错的认识，那我们开始练习吧！
+
+假设我现在有下列问题：
+
+> 在不运行代码的前提下，下列码段的结果是什么？
 >
 > ```js
 > String.prototype.substring.call(undefined, 2, 4)
 > ```
 
-This is a pretty tricky question. It seems that there are two plausible outcomes:
+这是个整人的题。它貌似会有两种输出：
 
-1. `String.prototype.substring()` could first cast **undefined** to the string `"undefined"`, and then take characters at positions two and three (i.e., the interval [2, 4)) of that string to **result in "de"**
-2. On the other hand, `String.prototype.substring()` may just as reasonably **throw an error**, thus rejecting **undefined** as an input.
+1. `String.prototype.substring()`首先会把 **undefined**转化为字符串型的`"undefined"`，然后把这个字符串的从索引二到索引三的片段截出，得到   "de"。（依据substring()的功能，置入其的两个参数表示左闭右开的索引区间）
+2. 另一方面， `String.prototype.substring()`也许只会直接抛出一个错误，因为其不允许**undefined** 作为输入。
 
-Unfortunately, [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring#) also doesn’t really offer any insights on how the function behaves when the **this** value isn’t a string.
+不巧的是，对于这种“当**This**的值不是字符串时，substring()该如何工作”的情形，MDN没有提供回答。
 
-*Spec to the rescue!* After typing in `substring` in the search box in the top-left corner on the spec [[ECMA-262\]](#biblio-ecma-262), we arrive at [§21.1.3.21 String.prototype.substring ( start, end )](https://tc39.github.io/ecma262/#sec-string.prototype.substring), which is the normative 规范 of how the function works.
+那就赶紧查文档！在ECMA-262文档中键入关键词`substring`后，我们转到了21.1.2.21章节[§21.1.3.21 String.prototype.substring ( start, end )](https://tc39.github.io/ecma262/#sec-string.prototype.substring)，而正是这里规定了函数的工作方式。
 
-Before reading the algorithm steps, let’s think about what we know first. I assume we have a basic understanding of how `str.substring()` ordinarily works, which is to return a part of the given string. What we are not really sure of right now, is how it acts with the **this** value being **undefined**. So, we would specifically look for algorithm steps that address the **this** value.
+在阅读算法步骤*（algorithm steps）*之前，我们先想一想自己知道什么。此处，我假定了我们知道`str.substring()`在普通传参时的工作情况：它会返回所给字符串的一部分。现在我们不确定的是，**This**值为**undefined**时substring()该怎么工作。所以，我们专门去看那些关于“**this的值**”的算法步骤就可以了。
 
-Lucky for us, the first step of the algorithm for `String.prototype.substring()` deals specifically with the **this** value:
+我们很幸运，`String.prototype.substring()`算法步骤的第一步就专门写了关于**this的值**的处理：
 
 > 1. Let *O* be ? [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible)(**this** value).
 
-The [?](#question-mark) shorthand allows us to conclude that there may be some cases where the [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible) abstract operation may actually throw exceptions, since otherwise [!](#exclamation-mark) would have been used instead. In fact, if it throws an error it would correspond with our second hypothesis above! With hope, we look into what [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible) does by clicking on the hyperlink.
+`?`简写允许我们得出这样的结论： 抽象操作[RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible)也许会抛出异常，否则此处使用的该是`！`而不是`?`。实际上，如果它抛出了异常，那么将符合以上假设中的第二种情形。看到希望后，我们点开了 [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible)抽象操作的链接，看看它干了啥：
 
-The [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible) abstract operation is a little odd. Unlike most abstract operations, it is defined through a table rather than steps:
+ [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible) 这个抽象操作有点奇怪。不像其他抽象操作那样，它是用一个表而不是算法步骤来定义的：
 
 > | Argument Type | Result                           |
 > | ------------- | -------------------------------- |
 > | Undefined     | Throw a **TypeError** exception. |
 > | ...           | ...                              |
 
-No matter though – in the row corresponding to Undefined (the type of the **this** value we passed to `substring()`) the spec says that [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible) should throw an exception. And because the [?](#question-mark)notation is used in the definition of the function, we know that the thrown exception must bubble up to the caller of the function. Bingo!
+无论如何——在undefined（我们传递给 `substring()`的**this的值**的类型）对应的那一行，表明[RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible) 要抛出一个异常。又由于在`substring()`的定义中用到了`？`符号，那么我们就知道异常的抛出将**冒泡**到substring()中。完美！
 
-And there we have our answer: **the given code fragment throws a TypeError exception.**
+于是我们就有了答案：本题的代码段将抛出一个异常。
 
-The spec only specifies the type of the Error thrown, not what message it contains. This means that implementations can have different error messages, maybe even localized ones.
+ECMAScript规范值只定义了所抛出的异常的类型，没规定这个异常所包含的具体内容。也就是说，一个同名异常的不同实现会有不同的内容提示，即使他们在同一个环境下。
 
-On Google’s V8 6.4 (included in Google Chrome 64), for example, the message is
+例如，在Google的V8 6.4引擎中，（包含于 Google Chrome 64），提示信息为：
 
 ```
 TypeError: String.prototype.substring called on null or undefined
 ```
 
-while Mozilla Firefox 57.0 gives a somewhat less helpful
+而 Mozilla Firefox 57.0 则给了一个没啥用的提示：
 
 ```
 TypeError: can’t convert undefined to object
 ```
 
-At the same time, ChakraCore version 1.7.5.0 (the JavaScript engine in Microsoft Edge) takes V8’s route and throws
+同时， ChakraCore 的 1.7.5.0版本 (Microsoft Edge的JavaScript引擎 ) 走了V8的路线： 
 
 ```
 TypeError: String.prototype.substring: 'this' is null or undefined
 ```
 
-<h3 id="example-can-boolean-and-string-ever-throw-exceptions">2.7. Example: Can `Boolean()` and `String()` ever throw exceptions?</h3>
 
-When writing mission-critical code, one must put exception handling at the forefront in programming. As such, the question of "can *some built-in function* ever throw an exception?" may be oft-pondered.
 
-In this example, we shall try to answer this question for two language built-in functions, `Boolean()` and `String()`. We will only look at direct calls to those functions, not the cases of `new Boolean()` and `new String()` which form boxed objects – easily one of the [most undesirable features in JavaScript](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch3.md#object-wrapper-gotchas) and a very much discouraged practice in pretty much all JS style guides out there [[YDKJS\]](#biblio-ydkjs).
+<h3 id="example-can-boolean-and-string-ever-throw-exceptions">2.7. Example: Boolean() 和 String() 会抛出异常吗？</h3>
 
-After navigating to the section for `Boolean()` in the spec, we see that the algorithm seems to be fairly short:
+编写关键任务的代码时，你必须把异常处理放到编程的首位。由此，我们有时会思考：内置方法会抛出异常吗？
 
-When `Boolean` is called with argument value, the following steps are taken:
+在本例中，我们要尝试用`Boolean()` 和 `String()`这两个JS内置函数来这回答这个问题。注意，是他们本身而**不是**他们的实例`new Boolean()` 和`new String()`。他们很容易成为基本包装类型的对象，而这正是JS[最不受欢迎的特性](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch3.md#object-wrapper-gotchas) 。 而这在几乎所有的JS风格指南中都是不推荐的（出自[YDKJS](https://github.com/getify/You-Dont-Know-JS)）。
 
-1. Let b be [ToBoolean](https://tc39.github.io/ecma262/#sec-toboolean)(value).
-2. If NewTarget is **undefined**, return b.
-3. Let O be ? [OrdinaryCreateFromConstructor](https://tc39.github.io/ecma262/#sec-ordinarycreatefromconstructor)(NewTarget, `"%BooleanPrototype%"`, « [[BooleanData]] »).
-4. Set O.[[BooleanData]] to b.
-5. Return O.
+转到规范中关于“Boolean()”的那部分后，我们发现算法似乎相当短:
 
-But on the other hand, it’s not totally straightforward, with some complex acrobatics around [OrdinaryCreateFromConstructor](https://tc39.github.io/ecma262/#sec-ordinarycreatefromconstructor) involved. More importantly, there is a [?](#question-mark) shorthand in step 3 that *may* indicate this function can throw errors in certain cases. Let’s take a closer look.
+> When `Boolean` is called with argument value, the following steps are taken:
+>
+> 1. Let b be [ToBoolean](https://tc39.github.io/ecma262/#sec-toboolean)(value).
+> 2. If NewTarget is **undefined**, return b.
+> 3. Let O be ? [OrdinaryCreateFromConstructor](https://tc39.github.io/ecma262/#sec-ordinarycreatefromconstructor)(NewTarget, `"%BooleanPrototype%"`, « [[BooleanData]] »).
+> 4. Set O.[[BooleanData]] to b.
+> 5. Return O.
 
-Step 1 casts value (the function argument) to a Boolean value. Interestingly there isn’t a [?](#question-mark) or [!](#exclamation-mark) shorthand for this step, but usually not having a Completion Record shorthand means the same thing as [!](#exclamation-mark). So step 1 cannot throw an exception.
+但另一方面，由于 [OrdinaryCreateFromConstructor](https://tc39.github.io/ecma262/#sec-ordinarycreatefromconstructor) 所包含的语句特殊用法，使得上述算法步骤看起来并不明确。 更重要的是，在第三步中的简写符号`?`表明他会在某些情况下抛出异常。让我们再细细看一下：
 
-Step 2 checks if something called [NewTarget](#abstract-opdef-newtarget) is **undefined**. NewTarget is the spec equivalent for the `new.target` meta property that was first added in ES2015, allowing the spec to distinguish between a `new Boolean()` call (where it is `Boolean`) and a `Boolean()` call (where it is **undefined**). Because we are only looking at direct calls to `Boolean()` at this moment, we know that [NewTarget](#abstract-opdef-newtarget) is always going to be **undefined**, and the algorithm will always return b straightaway without any additional processing.
+Step 1 ：把value（函数传入的形参）转化为布尔值。有趣的是，这个步骤中并没有`?`或`!`。但通常来说，一条算法步骤中没有“完成记录”的简写意为着这个简记符为`!`。所以，第一步不会抛出异常。
 
-Because calling `Boolean()` without `new` can only access the first two steps in the algorithm for `Boolean()`, neither of which can throw exceptions, we conclude that **Boolean() never throws exceptions** no matter what the input is.
+Step 2 ：检查这个*NewTarget*的值是否为 **undefined**。ES2015首次提出，所谓 *NewTarget*就是在ECMAScript规范中，与[`new.target`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target#) 属性等价的一个符号，从而使规范更好地区分 `new Boolean()` 的调用（这里是布尔值）以及 `Boolean()`的调用（这里是**undefined**）。因为我们只关注`Boolean()`的直接调用，所以我们知道 *NewTarget*总为**undefined**，算法会直接返回b，而不会有额外的处理。
+
+因为在不使用`new`而对 `Boolean()`直接调用的情况下，只能进行到算法步骤的前两步，而这两部中都没有抛出异常。所以我们可以推断出：**不管输入为何，Boolean()都不会抛出异常**。
 
 ------
 
-Let’s turn our attention to `String()`:
+让我们来看 `String()`：
 
-When `String` is called with argument value, the following steps are taken:
+> When `String` is called with argument value, the following steps are taken:
+>
+> 1. If no arguments were passed to this function invocation, let s be `""`.
+> 2. Else,
+>    1. If NewTarget is **undefined** and [Type](https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values)(value) is Symbol, return [SymbolDescriptiveString](https://tc39.github.io/ecma262/#sec-symboldescriptivestring)(value).
+>    2. Let s be ? [ToString](https://tc39.github.io/ecma262/#sec-tostring)(value).
+> 3. If NewTarget is **undefined**, return s.
+> 4. Return ? [StringCreate](https://tc39.github.io/ecma262/#sec-stringcreate)(s, ? [GetPrototypeFromConstructor](https://tc39.github.io/ecma262/#sec-getprototypefromconstructor)(NewTarget, `"%StringPrototype%"`)).
 
-1. If no arguments were passed to this function invocation, let s be `""`.
-2. Else,
-   1. If NewTarget is **undefined** and [Type](https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values)(value) is Symbol, return [SymbolDescriptiveString](https://tc39.github.io/ecma262/#sec-symboldescriptivestring)(value).
-   2. Let s be ? [ToString](https://tc39.github.io/ecma262/#sec-tostring)(value).
-3. If NewTarget is **undefined**, return s.
-4. Return ? [StringCreate](https://tc39.github.io/ecma262/#sec-stringcreate)(s, ? [GetPrototypeFromConstructor](https://tc39.github.io/ecma262/#sec-getprototypefromconstructor)(NewTarget, `"%StringPrototype%"`)).
+依据我们对函数`Boolean()`的分析经验，我们知道当直接调用`String()`时，*NewTarget*的值只会是**undefined**。因此最后一步不在考虑范围，直接跳过。 由于 [Type](#abstract-opdef-type)和 [SymbolDescriptiveString](https://tc39.github.io/ecma262/#sec-symboldescriptivestring) 都不处理 *abrupt completion*类型的完成记录，那么这二者也不用考虑。至此，还有一个`?`在 抽象操作[ToString](https://tc39.github.io/ecma262/#sec-tostring)的调用之前。我们来细细看看：
 
-From our experience with doing the same kind of analysis with the `Boolean()` function, we know that [NewTarget](#abstract-opdef-newtarget) will always be **undefined** for our case, and therefore the last step can be skipped from our consideration. We also know that [Type](#abstract-opdef-type) and [SymbolDescriptiveString](https://tc39.github.io/ecma262/#sec-symboldescriptivestring) are safe as well, since abrupt completions are not handled for either of them. Yet, there is still a tell-tale [?](#question-mark) preceding the call to the [ToString](#abstract-opdef-tostring) abstract operation. Let’s take a closer look.
-
-Like [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible) we looked at earlier, [ToString](https://tc39.github.io/ecma262/#sec-tostring)(argument) is also defined with a table:
+正如之前我们研究的 [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectcoercible)， [ToString](https://tc39.github.io/ecma262/#sec-tostring)(argument)也是由一个表定义的：
 
 > | Argument Type | Result                                                       |
 > | ------------- | ------------------------------------------------------------ |
@@ -636,21 +654,25 @@ Like [RequireObjectCoercible](https://tc39.github.io/ecma262/#sec-requireobjectc
 > | Symbol        | Throw a **TypeError** exception.                             |
 > | Object        | Apply the following steps:Let primValue be ? [ToPrimitive](https://tc39.github.io/ecma262/#sec-toprimitive)(argument, hint String).Return ? [ToString](https://tc39.github.io/ecma262/#sec-tostring)(primValue). |
 
-At the point where [ToString](#abstract-opdef-tostring) is called in `String()`, value can be any value other than a Symbol (which is filtered out in the step immediately before). Yet, there still remain two [?](#question-mark) in the row for Object. We can follow the link to [ToPrimitive](https://tc39.github.io/ecma262/#sec-toprimitive) and beyond, and see that there are in fact a lot of opportunities for an error to be thrown if value is an Object:
+在 `String()`中调用 ToString()时，值可以是除Symbol类型的任何值（被之前的步骤过滤了）。至此，算法步骤中还留有两个`?`。我们可以通过 [ToPrimitive](https://tc39.github.io/ecma262/#sec-toprimitive)和其他链接看出，如果value为一个对象，那么它可能会抛出很多错误：
 
-Several examples where `String()` throws
+> 例十：[一些`String()` 抛出错误的例子](https://tc39.github.io/ecma262/#sec-string-constructor-string-value)
 
-So for `String()`, our conclusion is that **it never throws exceptions for primitive values, but may throw errors for Objects.**
+因此对于String()的结论是，它不会为原始值抛出异常，但可能会为一个对象抛出异常。
 
-<h3 id="example-typeof-operator">2.8. Example: `typeof` operator</h3>
+<h3 id="example-typeof-operator">2.8. Example: 操作符 typeof </h3>
 
-So far, we’ve only analyzed API functions, let’s try something different.
+至此，我们仅仅分析了API方法，让我们看看别的。
 
- To be written. [](https://github.com/TimothyGu/es-howto/issues/2)
+[待续。。](https://github.com/TimothyGu/es-howto/issues/2)
 
-## Glossary
 
-### Common abstract operations
+
+
+
+<h2 id="glossary">3.术语表</h2>
+
+<h3 id="common-abstract-operations">3.1常用的抽象操作</h3>
 
 - ArrayCreate ( length [ , proto ] ) ([spec](https://tc39.github.io/ecma262/#sec-arraycreate))
 
@@ -754,71 +776,19 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
   Returns the [type](https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values) of argument.
 
-## Index
 
-### Terms defined by this specification
 
-- [!](#exclamation-mark), in §2.4
-- [?](#question-mark), in §2.4
-- [abrupt completion](#abrupt-completion), in §2.4
-- [abstract operation](#abstract-operation), in §2.2
-- [ArrayCreate](#abstract-opdef-arraycreate), in §Unnumbered section
-- [break](#dom-completion-record-type-break), in §2.4
-- [Call](#abstract-opdef-call), in §Unnumbered section
-- [callable object](#callable-object), in §2.5
-- [Completion Record](#completion-record), in §2.4
-- [Construct](#abstract-opdef-construct), in §Unnumbered section
-- [continue](#dom-completion-record-type-continue), in §2.4
-- [DefinePropertyOrThrow](#abstract-opdef-definepropertyorthrow), in §Unnumbered section
-- [DeletePropertyOrThrow](#abstract-opdef-deletepropertyorthrow), in §Unnumbered section
-- [double brackets notation](#double-brackets-notation), in §2.3
-- [exotic object](#exotic-object), in §2.5
-- [field](#record-field), in §2.3.1
-- [function object](#function-object), in §2.5
-- [Get](#abstract-opdef-get), in §Unnumbered section
-- [GetV](#abstract-opdef-getv), in §Unnumbered section
-- [HasOwnProperty](#abstract-opdef-hasownproperty), in §Unnumbered section
-- [HasProperty](#abstract-opdef-hasproperty), in §Unnumbered section
-- [internal method](#internal-method), in §2.5
-- [internal slot](#internal-slot), in §2.5
-- [Invoke](#abstract-opdef-invoke), in §Unnumbered section
-- [IsArray](#abstract-opdef-isarray), in §Unnumbered section
-- [IsCallable](#abstract-opdef-iscallable), in §Unnumbered section
-- [IsConstructor](#abstract-opdef-isconstructor), in §Unnumbered section
-- [NewTarget](#abstract-opdef-newtarget), in §2.7
-- [normal](#dom-completion-record-type-normal), in §2.4
-- [normal completion](#normal-completion), in §2.4
-- [ordinary object](#ordinary-object), in §2.5
-- [Record](#record), in §2.3.1
-- [return](#dom-completion-record-type-return), in §2.4
-- [ReturnIfAbrupt](#abstract-opdef-returnifabrupt), in §Unnumbered section
-- [StringCreate](#abstract-opdef-stringcreate), in §Unnumbered section
-- [[[Target\]]](#completion-record-target), in §2.4
-- [throw](#dom-completion-record-type-throw), in §2.4
-- [ToBoolean](#abstract-opdef-toboolean), in §Unnumbered section
-- [ToInt16](#abstract-opdef-toint16), in §Unnumbered section
-- [ToInt32](#abstract-opdef-toint32), in §Unnumbered section
-- [ToInt8](#abstract-opdef-toint8), in §Unnumbered section
-- [ToInteger](#abstract-opdef-tointeger), in §Unnumbered section
-- [ToNumber](#abstract-opdef-tonumber), in §Unnumbered section
-- [ToObject](#abstract-opdef-toobject), in §Unnumbered section
-- [ToPrimitive](#abstract-opdef-toprimitive), in §Unnumbered section
-- [ToString](#abstract-opdef-tostring), in §Unnumbered section
-- [ToUint16](#abstract-opdef-touint16), in §Unnumbered section
-- [ToUint32](#abstract-opdef-touint32), in §Unnumbered section
-- [ToUint8](#abstract-opdef-touint8), in §Unnumbered section
-- [ToUint8Clamp](#abstract-opdef-touint8clamp), in §Unnumbered section
-- [Type](#abstract-opdef-type), in §Unnumbered section
-- [[[Type\]]](#completion-record-type), in §2.4
-- [[[Value\]]](#completion-record-value), in §2.4
 
-### §Terms defined by reference
+
+<h2 id="index">4.用词出处</h2>
+
+<h3 id="index-defined-elsewhere">4.1术语的标准来源</h3>
 
 - [CONSOLE]
 
    
 
-  defines the following terms:
+  定义了以下术语:
 
   - console
 
@@ -826,7 +796,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
    
 
-  defines the following terms:
+  定义了以下术语:
 
   - addEventListener(type, callback)
 
@@ -834,7 +804,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
    
 
-  defines the following terms:
+  定义了以下术语:
 
   - %ArrayPrototype%
   - %StringPrototype%
@@ -906,7 +876,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
    
 
-  defines the following terms:
+  定义了以下术语:
 
   - HTMLElement
   - WindowProxy
@@ -921,7 +891,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
    
 
-  defines the following terms:
+  定义了以下术语:
 
   - Buffer
   - __dirname
@@ -934,9 +904,9 @@ So far, we’ve only analyzed API functions, let’s try something different.
   - process
   - require()
 
-## References
+<h2 id="reference">5.参考资料</h2>
 
-### Informative References
+<h3 id="informative">5.1开卷有益</h3>
 
 - [CONSOLE]
 
@@ -948,11 +918,11 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
 - [ECMA-262]
 
-  [ECMAScript Language 规范](https://tc39.github.io/ecma262/). URL: <https://tc39.github.io/ecma262/>
+  [ECMAScript Language specification](https://tc39.github.io/ecma262/). URL: <https://tc39.github.io/ecma262/>
 
 - [ECMA-262-2018]
 
-  [ECMAScript 2018 Language 规范](https://ecma-international.org/ecma-262/9.0/index.html). URL: <https://ecma-international.org/ecma-262/9.0/index.html>
+  [ECMAScript 2018 Language specification](https://ecma-international.org/ecma-262/9.0/index.html). URL: <https://ecma-international.org/ecma-262/9.0/index.html>
 
 - [ECMA-262-GLOBAL]
 
@@ -964,7 +934,7 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
 - [ISO-16262-2011]
 
-  [ISO/IEC 16262:2011 - Information technology – Programming languages, their environments and system software interfaces – ECMAScript language 规范](https://www.iso.org/standard/55755.html). URL: <https://www.iso.org/standard/55755.html>
+  [ISO/IEC 16262:2011 - Information technology – Programming languages, their environments and system software interfaces – ECMAScript language specification](https://www.iso.org/standard/55755.html). URL: <https://www.iso.org/standard/55755.html>
 
 - [JOHNNY-FIVE]
 
@@ -996,8 +966,4 @@ So far, we’ve only analyzed API functions, let’s try something different.
 
 - [YDKJS]
 
-  Kyle Simpson. [You Don't Know JS (book series)](https://github.com/getify/You-Dont-Know-JS). URL: <https://github.com/getify/You-Dont-Know-JS>
-
-## Issues Index
-
- To be written. [](https://github.com/TimothyGu/es-howto/issues/2)[ ↵](#issue-c1ad3571)
+  Kyle Simpson. [You Don't Know JS (book series)](https://github.com/getify/You-Dont-Know-JS). URL: <https://github.com/getify/You-Dont-Know-JS)
