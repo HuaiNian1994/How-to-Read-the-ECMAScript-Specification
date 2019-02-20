@@ -72,7 +72,7 @@ ECMAScript语言规范 (也叫做JavaScript规范, 或者 ECMA-262) 是深入理
 
 <h2 id="prelude" >1. 前言</h2>
 
-现在，你决定每天阅读一点ECMAScript规范。也许是为了陶冶情操，或者这是新年立的FLAG，亦或你妈妈觉得你需要读。哎，不管是什么原因，欢迎入坑!
+现在，你决定每天阅读一点ECMAScript规范。也许是为了陶冶情操，或者这是新年立的FLAG，亦或你妈妈觉得你需要读。不管为啥，欢迎入坑!
 
 > ​	注意: 在我的这篇文档中，我只会使用 "ECMAScript" 来表示规范本身，即ECMA-262，而对于非规范的泛指我则使用 "JavaScript" 。 (ECMAScript和JavaScript之间有一些历史上的区别，但是讨论这些已经超出了本文的范围，您可以很容易地[查询这个区别](https://www.google.com/search?q=ecmascript+vs.+ JavaScript)。)
 
@@ -104,7 +104,7 @@ Set {}
 
 那就阅读ECMAScript规范吧。
 
-有时，你可能想知道臭名昭著的宽松的相等操作符`== `究竟是如何起作用的。作为一个勤奋的软件工程师，你在MDN上查找它，却发现它的解释段落如此密集，对你的眼睛的伤害比帮助更大。
+有时，你可能想知道臭名昭著的宽松相等操作符`== `究竟是如何起作用的。作为一个勤奋的软件工程师，你在MDN上查找它，却发现它的解释段落如此密集，对你的眼睛的伤害比帮助更大。
 
 那就阅读ECMAScript规范吧。
 
@@ -116,11 +116,9 @@ Okay，现在你知道阅读规范会帮助你了解、看清一门编程语言�
 
 <h3 id="what-belongs-to-the-ecmascript-specification" >1.2. ECMAScript标准的内容范围</h3>
 
-课本给出的答案是： "ECMAScript 规范只包含语言特性"。呵呵，这句话说了等于没说，相当于说是 "JavaScript 的特性就是 JavaScript"，"宪法的第一条是宪法的第一条"。
+课本给出的答案是： "ECMAScript 规范只包含语言特性"。呵呵，这句话说了等于没说，相当于说是 "JavaScript 的特性就是 JavaScript的特性"，"宪法的第一条是宪法的第一条"。
 
 相反，我会列出常见的JS应用所共有的东西，然后逐一告诉你这共通点些是否为JS的语言特性：
-
-（译者注：对于下表中的“syntactic element”，我将其称作**“语法单元分隔符”**。括号、分号等具有分割语句、标记语法单元、表达式，让语句拥有层次结构的作用的符号都可被称为“syntactic element”。）
 
 | syntactic element的语法(例如：一个合法的`for`..`in` 循环的结构是什么) | ✔    |
 | ------------------------------------------------------------ | ---- |
@@ -131,6 +129,8 @@ Okay，现在你知道阅读规范会帮助你了解、看清一门编程语言�
 | Node.js的一些全局对象：`Buffer`, `process`, `global`*        | ✘[3] |
 | Node.js特有语句：`module`, `exports`, `require()`, `__dirname`, `__filename` | ✘[4] |
 | 浏览器特有语句：`window`, `alert()`, `confirm()`, the DOM (`document`, `HTMLElement`, `addEventListener()`, `Worker`, ...) | ✘[5] |
+
+（译者注：上方的所谓“syntactic element”，语法元素，它就是一个词，命名了句法结构中的一个特定功能。它在ECMAScript中以*斜体*的形式书写，比如*FunctionDeclarations*。）
 
 
 
