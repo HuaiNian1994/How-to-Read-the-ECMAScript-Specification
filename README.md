@@ -289,7 +289,7 @@ ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`�
 > 2. If both Desc.[[Value]] and Desc.[[Writable]] are absent, return **false**.
 > 3. Return **true**.
 
-其他关于 [Records](#record) 的实例在这个章节中： [§2.4 Completion Records; ? and !](#completion-records-and-shorthands)
+其他关于 [Records](#record) 的实例在这个章节中：[2.4. “完成记录” 与 速记符号 `?`&`!`](#completion-records-and-shorthands)
 
 延伸阅读： [§6.2.1 The List and Record specification Types](https://tc39.github.io/ecma262/#sec-list-and-record-specification-type)
 
@@ -301,7 +301,7 @@ ECMAScript规范使用术语`Record`来引用具有固定键集合的`键-值`�
 
 （译者注：但是它会体现于代码结果上：例如内置对象**Data**使用了[[DateValue]]这个“内部插槽”，用于存储以世界协调时为基准的当前时间的时间戳。码代码时不可见，但你可以把它打印出来。）
 
-但是，他们会暴露于那些实现了特定细节的工具中，例如谷歌Chrome自带的开发者调试工具。因此，使用形如[[Notation]]的结构来描述“内部插槽”是有意义的。关于“内部插槽”的规定在2.2章节中 [§2.5 JavaScript Objects](#javascript-objects)。
+但是，他们会暴露于那些实现了特定细节的工具中，例如谷歌Chrome自带的开发者调试工具。因此，使用形如[[Notation]]的结构来描述“内部插槽”是有意义的。关于“内部插槽”的规定在章节 §6.1.7.2 Object Internal Methods and Internal Slots中。
 
 现在，你专心看以下的例子就好，不要老想着内部插槽到底是干嘛的：
 
